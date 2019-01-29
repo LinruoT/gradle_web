@@ -12,6 +12,8 @@ public class Bittle {
     private final Date time;
     private Double latitude;
     private Double longitude;
+
+
     public Bittle(String message,Date time) {
         this(null,message,time,null,null);
     }

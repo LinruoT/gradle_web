@@ -15,8 +15,8 @@
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style.css" />" >
 </head>
 <body>
-<div class="bittleForm">
-    <h1>Spit it out...</h1>
+<div class="bittle">
+    <h1>Bit it out...</h1>
     <form method="POST" name="bittleForm">
         <input type="hidden" name="latitude">
         <input type="hidden" name="longitude">

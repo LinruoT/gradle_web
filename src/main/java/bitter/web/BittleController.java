@@ -1,5 +1,6 @@
 package bitter.web;
 
+import bitter.Bittle;
 import bitter.data.BittleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Date;
 
 //处理/bittles的控制器（推文）
 @Controller
@@ -30,5 +33,11 @@ public class BittleController {
     public String bittle(@PathVariable Long bittleId, Model model) {
         model.addAttribute("bittle",bittleRepository.findOne(bittleId));
         return "bittle";
+    }
+    @RequestMapping(method = RequestMethod.POST) //接受表单，新建一个bittle
+    public String saveBittle(BittleForm bittleForm) throws Exception {
+
+        bittleRepository.save(new Bittle(bittleForm.getMessage(),new Date()));
+        return "redirect:/bittles";
     }
 }
