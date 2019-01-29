@@ -1,0 +1,14 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
+<html>
+  <head>
+    <title>Bitter</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style.css" />" >
+  </head>
+  <body>
+    <h1>Your Profile</h1>
+    username:<c:out value="${bitter.username}" /><br/>
+    <c:out value="${bitter.firstName}" /> <c:out value="${bitter.lastName}" /><br/>
+    <c:out value="${bitter.email}" />
+  </body>
+</html>

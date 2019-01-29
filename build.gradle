@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id "war"//加了这个可以识别webapp目录
+}
+
+group 'com.linruot'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    maven { url 'http://maven.springframework.org/release' }
+    maven { url 'http://maven.springframework.org/milestone' }
+    maven { url 'http://maven.springframework.org/snapshot' }
+    maven { url 'http://download.java.net/maven/2' }
+    mavenCentral()
+}
+war {
+    baseName = 'bitter'
+}
+
+//gradle工程的jar包，三个元素group name version
+//testCompile表示测试的时候起作用，jar包的作用域
+dependencies {
+    compile "org.springframework:spring-webmvc:$springVersion"
+    compile "org.springframework:spring-jdbc:$springVersion"
+    compile "com.h2database:h2:$h2Version"
+    compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
+    compile "org.apache.commons:commons-lang3:$commonsLangVersion"
+
+    compile "javax.servlet:jstl:$jstlVersion"
+    compile "javax.servlet:javax.servlet-api:$servletApiVersion"
+    compile "javax.servlet.jsp:jsp-api:$jspApiVersion"
+    compile "javax.el:javax.el-api:$jspElVersion"
+
+    compile "junit:junit-dep:$junitVersion"
+    compile "org.springframework:spring-test:$springVersion"
+    compile "org.mockito:mockito-core:$mockitoVersion"
+    compile "org.hamcrest:hamcrest-library:$hamcrestVersion"
+}
