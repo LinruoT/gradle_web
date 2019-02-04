@@ -14,10 +14,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan("bitter.web")
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
-    public ViewResolver viewResolver() {  //JSP视图解析器
+    public ViewResolver viewResolver() {  //JSP视图解析器：InternalResourceViewResolver
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/views/");
         resolver.setSuffix(".jsp");
+        resolver.setViewClass(org.springframework.web.servlet.view.JstlView.class);
         resolver.setExposeContextBeansAsAttributes(true);
         return resolver;
     }

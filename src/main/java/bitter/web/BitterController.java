@@ -22,18 +22,22 @@ public class BitterController {
     public BitterController(BitterRepository bitterRepository) { //构造器
         this.bitterRepository=bitterRepository;
     }
+//    @RequestMapping(value = "/register",method = RequestMethod.GET) //注册页面
+//    public String showRegistration() {
+//        return "registerForm";
+//    }
     @RequestMapping(value = "/register",method = RequestMethod.GET) //注册页面
-    public String showRegistration() {
+    public String showRegistration(Model model) {
+        model.addAttribute(new Bitter());//添加key=bitter的属性
         return "registerForm";
     }
     @RequestMapping(value = "/register",method = RequestMethod.POST) //提交表单，bitter的属性会被form同名参数填充
     public String processRegistration(@Valid Bitter bitter, Errors errors) {
-        if(errors.hasErrors()) {
-            return "registerForm";//有错误 则注册页面
-        }
+        if(errors.hasErrors()) { return "registerForm"; }//有错误 则注册页面
         bitterRepository.save(bitter);
         return "redirect:/bitter/"+bitter.getUsername();
     }
+
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
     public String showBitterProfile(@PathVariable String username, Model model) {
         Bitter bitter=bitterRepository.findByUsername(username);
