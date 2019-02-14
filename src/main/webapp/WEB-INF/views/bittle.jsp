@@ -8,10 +8,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>One Bittle</title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style.css" />" >
-</head>
+
 <body>
 
 <div class="listTitle">

@@ -10,10 +10,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html>
-<head>
-    <title>Bitter</title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/style.css" />" >
-</head>
+
 <body>
 <div class="bittle">
     <h1>Bit it out...</h1>

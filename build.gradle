@@ -28,6 +28,18 @@ dependencies {
     compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
     compile "org.apache.commons:commons-lang3:$commonsLangVersion"
 
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
+    compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
+    compile "org.slf4j:slf4j-log4j12:$slf4jVersion"
+    compile "log4j:log4j:$log4jVersion"
+
+    compile ("org.apache.tiles:tiles-core:$tilesVersion") {
+        exclude group: 'org.slf4j'
+    }
+    compile ("org.apache.tiles:tiles-jsp:$tilesVersion") {
+        exclude group: 'org.slf4j'
+    }
+
     compile "javax.servlet:jstl:$jstlVersion"
     compile "javax.servlet:javax.servlet-api:$servletApiVersion"
     compile "javax.servlet.jsp:jsp-api:$jspApiVersion"

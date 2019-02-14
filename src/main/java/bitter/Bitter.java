@@ -7,19 +7,19 @@ import javax.validation.constraints.Size;
 public class Bitter {
     private long id;
     @NotNull
-    @Size(min = 3,max = 25)
+    @Size(min = 3,max = 25,message = "{username.size}")
     private String username;
     @NotNull
-    @Size(min = 2,max = 25)
+    @Size(min = 2,max = 25,message = "{firstName.size}")
     private String firstName;
     @NotNull
-    @Size(min = 2,max = 25)
+    @Size(min = 2,max = 25,message = "{lastName.size}")
     private String lastName;
     @NotNull
-    @Size(min = 5,max = 25)
+    @Size(min = 5,max = 25,message = "{password.size}")
     private String password;
     @NotNull
-    @Size(min = 5,max = 25)
+    @Size(min = 5,max = 25,message = "{email.valid}")
     private String email;
     public Bitter() {}
     public Bitter(Long id,String username,String password,String firstName,String lastName,String email) {
