@@ -13,6 +13,6 @@ public class HomeController {
     @RequestMapping(method = RequestMethod.GET) //request mapping拆分后，http方法映射部分仍然在方法级别
     public String home(Model model) {//视图名home解析为/WEB-INF/views/home.jsp
         model.addAttribute("time", new Date());
-        return "home";
+        return "/WEB-INF/spring/home.html";
     }
 }

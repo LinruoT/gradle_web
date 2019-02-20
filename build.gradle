@@ -27,7 +27,7 @@ dependencies {
     compile "com.h2database:h2:$h2Version"
     compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
     compile "org.apache.commons:commons-lang3:$commonsLangVersion"
-
+    compile "org.thymeleaf:thymeleaf-spring4:$thymeleafVersion"
     compile "org.slf4j:slf4j-api:$slf4jVersion"
     compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
     compile "org.slf4j:slf4j-log4j12:$slf4jVersion"
