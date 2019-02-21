@@ -19,7 +19,7 @@
           </ul>
         </div>
         <label th:class="${#fields.hasErrors('firstName')}? 'error'">First Name</label>: 
-          <input type="text" th:field="*{firstName}"  
+          <input type="text" th:field="*{firstName}"
                  th:class="${#fields.hasErrors('firstName')}? 'error'" /><br/>
   
         <label th:class="${#fields.hasErrors('lastName')}? 'error'">Last Name</label>: 
