@@ -26,6 +26,7 @@ public class BittleController {
     public String bittles(Model model,@RequestParam(value = "max",defaultValue = ""+Long.MAX_VALUE) long max, //含有两个参数max和count，路径是/bittles?count=20
                           @RequestParam(value = "count",defaultValue = "20")int count) {
         model.addAttribute("bittleList",bittleRepository.findBittles(max,count));
+        model.addAttribute(new BittleForm());
         return "bittles";
     }
 

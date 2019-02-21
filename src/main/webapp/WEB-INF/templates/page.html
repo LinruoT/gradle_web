@@ -1,13 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Bitter</title>
-    <link rel="stylesheet"
-          type="text/css"
-          th:href="@{/resources/style.css}"></link>
-</head>
 <body>
-<div id="header" th:include="page :: header"></div>
+<div class="header" th:fragment="header">
+    <h5>gaoduanhei header</h5>
+</div>
 
 <div id="content">
     <h1>Welcome to Bitter</h1>
@@ -19,6 +15,8 @@
 
     View: <span th:text="${view}">unknown</span>
 </div>
-<div id="footer" th:include="page :: copy"></div>
+<div class="copy" th:fragment="copy">
+    <h5>by Billy Lin</h5>
+</div>
 </body>
 </html>
