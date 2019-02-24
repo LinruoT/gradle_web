@@ -32,8 +32,12 @@ public class BitterController {
         return "registerForm";
     }
     @RequestMapping(value = "/register",method = RequestMethod.POST) //提交表单，bitter的属性会被form同名参数填充
-    public String processRegistration(@Valid Bitter bitter, Errors errors) {
+    public String processRegistration(@Valid Bitter bitter, Errors errors) throws Exception {
         if(errors.hasErrors()) { return "registerForm"; }//有错误 则注册页面
+        String first=new String(bitter.getFirstName().getBytes("ISO-8859-1"),"utf-8");
+        bitter.setFirstName(first);
+        String last=new String(bitter.getLastName().getBytes("ISO-8859-1"),"utf-8");
+        bitter.setLastName(last);
         bitterRepository.save(bitter);
         return "redirect:/bitter/"+bitter.getUsername();
     }
