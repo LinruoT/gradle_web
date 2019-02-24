@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.List;
 
 //处理/bittles的控制器（推文）
 @Controller
@@ -25,7 +27,11 @@ public class BittleController {
     @RequestMapping(method = RequestMethod.GET)//处理/bittles页面 GET方法：把bittleRepository的列表填充到模型。model是Map （key-value集合）
     public String bittles(Model model,@RequestParam(value = "max",defaultValue = ""+Long.MAX_VALUE) long max, //含有两个参数max和count，路径是/bittles?count=20
                           @RequestParam(value = "count",defaultValue = "20")int count) {
-        model.addAttribute("bittleList",bittleRepository.findBittles(max,count));
+        List<Bittle> bittleList=bittleRepository.findBittles(max,count);
+        for(Bittle oneBittle:bittleList) {
+            System.out.println(oneBittle.getMessage());
+        }
+        model.addAttribute("bittleList",bittleList);
         model.addAttribute(new BittleForm());
         return "bittles";
     }
@@ -37,8 +43,13 @@ public class BittleController {
     }
     @RequestMapping(method = RequestMethod.POST) //接受表单，新建一个bittle
     public String saveBittle(BittleForm bittleForm) throws Exception {
+        //把bittleForm的message转换编码
+        byte[] bytes=bittleForm.getMessage().getBytes("ISO-8859-1");
+        String abc=new String(bytes,"utf-8");
+        System.out.println("before save:"+abc);
 
-        bittleRepository.save(new Bittle(bittleForm.getMessage(),new Date()));
+        Bittle bittle=new Bittle(abc,new Date());
+        bittleRepository.save(bittle);
         return "redirect:/bittles";
     }
 }

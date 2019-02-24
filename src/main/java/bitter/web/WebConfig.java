@@ -48,29 +48,29 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return tiles;
     }
 
-//    @Bean
-//    public ViewResolver viewResolverNotUsed2() {
-//        return new TilesViewResolver();
-//    }
+    @Bean
+    public ViewResolver viewResolverNotUsed2() {
+        return new TilesViewResolver();
+    }
 //Thymeleaf
-    @Bean
-    public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
-        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine);
-        return viewResolver;
-    }
-    @Bean
-    public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver);
-        return templateEngine;
-    }
-    @Bean
-    public TemplateResolver templateResolver() {
-        TemplateResolver templateResolver = new ServletContextTemplateResolver();
-        templateResolver.setPrefix("/WEB-INF/templates/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML5");
-        return templateResolver;
-    }
+//    @Bean
+//    public ViewResolver viewResolver(SpringTemplateEngine templateEngine) {
+//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+//        viewResolver.setTemplateEngine(templateEngine);
+//        return viewResolver;
+//    }
+//    @Bean
+//    public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
+//        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+//        templateEngine.setTemplateResolver(templateResolver);
+//        return templateEngine;
+//    }
+//    @Bean
+//    public TemplateResolver templateResolver() {
+//        TemplateResolver templateResolver = new ServletContextTemplateResolver();
+//        templateResolver.setPrefix("/WEB-INF/templates/");
+//        templateResolver.setSuffix(".html");
+//        templateResolver.setTemplateMode("HTML5");
+//        return templateResolver;
+//    }
 }

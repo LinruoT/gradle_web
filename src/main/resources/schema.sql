@@ -16,3 +16,4 @@ create table Bitter (
 );
 
 insert into Bittle (message,created_at,latitude,longitude) values ('testmessage',CURRENT_TIMESTAMP,123,456);
+insert into Bittle (message,created_at,latitude,longitude) values ('testmessage一个中文消息',CURRENT_TIMESTAMP,123,456);
