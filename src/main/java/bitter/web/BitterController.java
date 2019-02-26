@@ -10,8 +10,13 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 //处理/bitter的控制器（用户）
 @Controller
@@ -32,13 +37,11 @@ public class BitterController {
         return "registerForm";
     }
     @RequestMapping(value = "/register",method = RequestMethod.POST) //提交表单，bitter的属性会被form同名参数填充
-    public String processRegistration(@Valid Bitter bitter, Errors errors) throws Exception {
+    public String processRegistration(@RequestPart("profilePicture") MultipartFile profilePicture, @Valid Bitter bitter, Errors errors) throws Exception {
         if(errors.hasErrors()) { return "registerForm"; }//有错误 则注册页面
-        String first=new String(bitter.getFirstName().getBytes("ISO-8859-1"),"utf-8");
-        bitter.setFirstName(first);
-        String last=new String(bitter.getLastName().getBytes("ISO-8859-1"),"utf-8");
-        bitter.setLastName(last);
         bitterRepository.save(bitter);
+        profilePicture.transferTo(new File(bitter.getUsername()+"_"+new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+"_"+profilePicture.getOriginalFilename())); //保存上传的图片
+
         return "redirect:/bitter/"+bitter.getUsername();
     }
 

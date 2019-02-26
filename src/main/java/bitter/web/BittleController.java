@@ -42,13 +42,8 @@ public class BittleController {
         return "bittle";
     }
     @RequestMapping(method = RequestMethod.POST) //接受表单，新建一个bittle
-    public String saveBittle(BittleForm bittleForm) throws Exception {
-        //把bittleForm的message转换编码
-        byte[] bytes=bittleForm.getMessage().getBytes("ISO-8859-1");
-        String abc=new String(bytes,"utf-8");
-        System.out.println("before save:"+abc);
-
-        Bittle bittle=new Bittle(abc,new Date());
+    public String saveBittle(BittleForm bittleForm) {
+        Bittle bittle=new Bittle(bittleForm.getMessage(),new Date());
         bittleRepository.save(bittle);
         return "redirect:/bittles";
     }

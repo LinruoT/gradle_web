@@ -6,7 +6,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 
 <%@ page session="false" contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
-
+<meta charset="UTF-8">
 <html>
   <body>
     <h1>Register </h1>
@@ -20,7 +20,7 @@
       <%--<input type="submit" value="Register" />--%>
     <%--</form>--%>
 <%--这是spring jsp库的form，填充key=bitter的属性--%>
-  <sf:form method="post" commandName="bitter">
+  <sf:form method="post" commandName="bitter" enctype="multipart/form-data" accept-charset="utf-8">
     <sf:errors path="*" element="div" cssClass="errors" />
     <sf:label path="firstName"
               cssErrorClass="error">First Name</sf:label>:
@@ -37,6 +37,8 @@
     <sf:label path="password"
               cssErrorClass="error">Password</sf:label>:
     <sf:password path="password" cssErrorClass="error" /><br/>
+    <label> Profile Picture:</label>
+    <input type="file" name="profilePicture" accept="image/jpeg,image/png,image/gif"><br><br>
     <input type="submit" value="Register" />
   </sf:form>
   </body>
