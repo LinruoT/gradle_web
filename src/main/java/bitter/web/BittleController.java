@@ -38,7 +38,16 @@ public class BittleController {
 
     @RequestMapping(value = "/{bittleId}",method = RequestMethod.GET) //路径是/bittles/123
     public String bittle(@PathVariable Long bittleId, Model model) {
-        model.addAttribute("bittle",bittleRepository.findOne(bittleId));
+        Bittle bittle=null;
+        try {
+            bittle=bittleRepository.findOne(bittleId);
+        } catch (Exception e) {
+
+        }
+        if(bittle==null) {
+            throw new BittleNotFoundException();
+        }
+        model.addAttribute("bittle",bittle);
         return "bittle";
     }
     @RequestMapping(method = RequestMethod.POST) //接受表单，新建一个bittle
