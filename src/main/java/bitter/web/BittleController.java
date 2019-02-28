@@ -5,10 +5,7 @@ import bitter.data.BittleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.Charset;
 import java.util.Date;
@@ -55,5 +52,10 @@ public class BittleController {
         Bittle bittle=new Bittle(bittleForm.getMessage(),new Date());
         bittleRepository.save(bittle);
         return "redirect:/bittles";
+    }
+    @ExceptionHandler(DuplicateBittleException.class) //处理此控制器所有方法抛出的DuplicateBittleException异常
+    public String handleDuplicateBittle() {
+        return "error/duplicate";
+
     }
 }
