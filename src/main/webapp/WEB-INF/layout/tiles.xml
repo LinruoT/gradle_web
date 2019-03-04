@@ -30,4 +30,8 @@
         <put-attribute name="body" value="/WEB-INF/views/bittle.jsp" />
     </definition>
 
+    <definition name="error/duplicate" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/error/duplicate.jsp" />
+    </definition>
+
 </tiles-definitions>

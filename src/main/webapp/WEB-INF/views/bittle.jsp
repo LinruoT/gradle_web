@@ -12,11 +12,12 @@
 <body>
 
 <div class="listTitle">
-    <h1>One Bittle高端黑</h1>
+    <h1>一个Bittle</h1>
     <ul class="bittleList">
         <li id="bittle_<c:out value="bittle.id"/>">
             <div class="bittleMessage"><c:out value="${bittle.message}" /></div>
             <div>
+                <span class="bittleId"><c:out value="${bittle.id}" /></span>
                 <span class="bittleTime"><c:out value="${bittle.time}" /></span>
                 <span class="bittleLocation">(<c:out value="${bittle.latitude}" />, <c:out value="${bittle.longitude}" />)</span>
             </div>

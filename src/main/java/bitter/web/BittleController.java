@@ -50,12 +50,16 @@ public class BittleController {
     @RequestMapping(method = RequestMethod.POST) //接受表单，新建一个bittle
     public String saveBittle(BittleForm bittleForm) {
         Bittle bittle=new Bittle(bittleForm.getMessage(),new Date());
-        bittleRepository.save(bittle);
+        if(bittleRepository.save(bittle)==1) {
+            throw new DuplicateBittleException();
+        }
         return "redirect:/bittles";
     }
-    @ExceptionHandler(DuplicateBittleException.class) //处理此控制器所有方法抛出的DuplicateBittleException异常
-    public String handleDuplicateBittle() {
-        return "error/duplicate";
 
-    }
+    //已经集中在AppWideExceptionHandler了
+//    @ExceptionHandler(DuplicateBittleException.class) //处理此控制器所有方法抛出的DuplicateBittleException异常
+//    public String handleDuplicateBittle() {
+//        return "error/duplicate";
+//
+//    }
 }

@@ -41,14 +41,19 @@ public class JdbcBittleRepository implements BittleRepository{
     }
 
     @Override
-    public void save(Bittle bittle) {
-        jdbc.update(
-                "insert into Bittle (message, created_at, latitude, longitude)" +
-                        " values (?, ?, ?, ?)",
-                bittle.getMessage(),
-                bittle.getTime(),
-                bittle.getLatitude(),
-                bittle.getLongitude());
+    public int save(Bittle bittle) {
+        try {
+            jdbc.update(
+                    "insert into Bittle (message, created_at, latitude, longitude)" +
+                            " values (?, ?, ?, ?)",
+                    bittle.getMessage(),
+                    bittle.getTime(),
+                    bittle.getLatitude(),
+                    bittle.getLongitude());
+            return 0;
+        } catch (Exception e) {
+            return 1;
+        }
     }
 
 
