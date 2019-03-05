@@ -37,12 +37,14 @@ public class BitterController {
         return "registerForm";
     }
     @RequestMapping(value = "/register",method = RequestMethod.POST) //提交表单，bitter的属性会被form同名参数填充
-    public String processRegistration(@RequestPart("profilePicture") MultipartFile profilePicture, @Valid Bitter bitter, Errors errors) throws Exception {
+    public String processRegistration(@RequestPart("profilePicture") MultipartFile profilePicture, @Valid Bitter bitter, Errors errors,Model model) throws Exception {
         if(errors.hasErrors()) { return "registerForm"; }//有错误 则注册页面
         bitterRepository.save(bitter);
         profilePicture.transferTo(new File(bitter.getUsername()+"_"+new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+"_"+profilePicture.getOriginalFilename())); //保存上传的图片
-
-        return "redirect:/bitter/"+bitter.getUsername();
+        model.addAttribute("username",bitter.getUsername());
+        model.addAttribute("bitterId",bitter.getId());
+//        return "redirect:/bitter/"+bitter.getUsername();
+        return "redirect:/bitter/{username}"; //比直接拼接字符串更加安全，model的其他属性会自动变成查询参数，/bitter/linruotian?bitterId=0
     }
 
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
