@@ -3,22 +3,26 @@ package bitter.web;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice //所有控制器的异常处理方法
 public class AppWideExceptionHandler {
 
+    //处理数据库存储异常
     @ExceptionHandler(DuplicateBittleException.class)
-    public String duplicateBittleHandler(Model model) {
+    public ModelAndView duplicateBittleHandler() {
         System.out.println("DuplicateBittleException");
-        model.addAttribute("errorType","DuplicateBittleException");
-        return "error/duplicate";
+        ModelAndView modelAndView = new ModelAndView("error/duplicate");
+        modelAndView.addObject("errorType","DuplicateBittleException");
+        return modelAndView;
     }
 
     @ExceptionHandler(DuplicateBitterException.class)
-    public String duplicateBitterHandler(Model model) {
+    public ModelAndView duplicateBitterHandler() {
         System.out.println("DuplicateBitterException");
-        model.addAttribute("errorType","DuplicateBitterException");
-        return "error/duplicate";
+        ModelAndView modelAndView = new ModelAndView("error/duplicate");
+        modelAndView.addObject("errorType","DuplicateBitterException");
+        return modelAndView;
     }
 //    @ExceptionHandler(BittleNotFoundException.class)
 
