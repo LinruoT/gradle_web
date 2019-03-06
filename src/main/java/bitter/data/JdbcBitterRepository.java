@@ -21,14 +21,18 @@ public class JdbcBitterRepository implements BitterRepository{
 
     @Override
     public Bitter save(Bitter bitter) {
-        jdbc.update("insert into Bitter (username, password, first_name, last_name, email)" +
-                " values (?, ?, ?, ?, ?)",
-                bitter.getUsername(),
-                bitter.getPassword(),
-                bitter.getFirstName(),
-                bitter.getLastName(),
-                bitter.getEmail());
-        return bitter;
+        try {
+            jdbc.update("insert into Bitter (username, password, first_name, last_name, email)" +
+                            " values (?, ?, ?, ?, ?)",
+                    bitter.getUsername(),
+                    bitter.getPassword(),
+                    bitter.getFirstName(),
+                    bitter.getLastName(),
+                    bitter.getEmail());
+            return bitter;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override //返回username对应的bitter类
