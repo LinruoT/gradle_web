@@ -18,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 //处理/bitter的控制器（用户）
 @Controller
@@ -46,7 +49,8 @@ public class BitterController {
                                       @Valid Bitter bitter,
                                       Errors errors,
                                       Model model,
-                                      RedirectAttributes redirectAttributes) throws Exception {
+                                      RedirectAttributes redirectAttributes,
+                                      HttpServletRequest request) throws Exception {
         if(errors.hasErrors()) { return "registerForm"; }//有错误 则注册页面
         if(bitterRepository.save(bitter)==null) {
             throw new DuplicateBitterException();
@@ -54,9 +58,11 @@ public class BitterController {
         String imageName = bitter.getUsername()+"_"+
                 new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+"_"+
                 profilePicture.getOriginalFilename();
-
+        String savePath=request.getServletContext().getRealPath("/");
+        System.out.println("savePath: "+savePath);
         saveImage(imageName,profilePicture);  //s3保存上传的图片
-        profilePicture.transferTo(new File(imageName)); //本地保存上传的图片
+        File file= new File(savePath+"/"+imageName);
+        profilePicture.transferTo(file); //本地保存上传的图片
 
         model.addAttribute("username",bitter.getUsername());
         model.addAttribute("bitterId",bitter.getId());
@@ -73,11 +79,27 @@ public class BitterController {
 //        return "profile";
 //    }
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
-    public String showBitterProfile(@PathVariable String username, Model model) {
+    public String showBitterProfile(@PathVariable String username, Model model, HttpServletRequest request) {
         if (!model.containsAttribute("bitter")) {
             System.out.println("没有传来bitter属性，从数据库中读取");
             Bitter bitter = bitterRepository.findByUsername(username);
             model.addAttribute(bitter);
+
+            String imgPath = request.getServletContext().getRealPath("/");
+            System.out.println("imgPath: "+imgPath);
+            List<String> rawImagesList=new ArrayList<>();
+            File file=new File(imgPath);
+            if (file.isDirectory()) {
+                String[] filelist = file.list();
+                for (int i = 0; i < filelist.length; i++) {
+                    File readfile = new File(imgPath + filelist[i]);
+                    if (!readfile.isDirectory()) {
+                        System.out.println(readfile.getName());
+                        rawImagesList.add(readfile.getName());
+                    }
+                }
+            }
+            model.addAttribute("imageList",rawImagesList);
         }
         return "profile";
     }

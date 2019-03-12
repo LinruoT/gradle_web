@@ -11,5 +11,10 @@
     username:<c:out value="${bitter.username}" /><br/>
     <c:out value="${bitter.firstName}" /> <c:out value="${bitter.lastName}" /><br/>
     <c:out value="${bitter.email}" />
+
+    <c:forEach var="image" items="${imageList}">
+      <a href="/${image}" target="_blank"><img  src="/${image}" /></a>
+    </c:forEach>
+
   </body>
 </html>
