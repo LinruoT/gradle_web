@@ -32,6 +32,8 @@ dependencies {
     compile "org.slf4j:jcl-over-slf4j:$slf4jVersion"
     compile "org.slf4j:slf4j-log4j12:$slf4jVersion"
     compile "log4j:log4j:$log4jVersion"
+    compile "com.amazonaws:aws-java-sdk-s3:1.11.172"
+    compile "io.minio:minio:3.0.10"
 
     compile ("org.apache.tiles:tiles-core:$tilesVersion") {
         exclude group: 'org.slf4j'

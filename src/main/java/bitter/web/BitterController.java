@@ -3,6 +3,10 @@ package bitter.web;
 
 import bitter.Bitter;
 import bitter.data.BitterRepository;
+import com.amazonaws.auth.AWSCredentials;
+import io.minio.MinioClient;
+import io.minio.errors.InvalidEndpointException;
+import io.minio.errors.InvalidPortException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,17 +51,19 @@ public class BitterController {
         if(bitterRepository.save(bitter)==null) {
             throw new DuplicateBitterException();
         }
-        profilePicture.transferTo(new File(bitter.getUsername()+"_"+
+        String imageName = bitter.getUsername()+"_"+
                 new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+"_"+
-                profilePicture.getOriginalFilename())); //保存上传的图片
+                profilePicture.getOriginalFilename();
+
+        saveImage(imageName,profilePicture);  //s3保存上传的图片
+        profilePicture.transferTo(new File(imageName)); //本地保存上传的图片
 
         model.addAttribute("username",bitter.getUsername());
         model.addAttribute("bitterId",bitter.getId());
         redirectAttributes.addFlashAttribute(bitter); //重定向时，相比url模版只能传递String，flash可以传递对象
         redirectAttributes.addAttribute("username",bitter.getUsername());
-
-//        return "redirect:/bitter/"+bitter.getUsername();
         return "redirect:/bitter/{username}"; //比直接拼接字符串更加安全，model的其他属性会自动变成查询参数，/bitter/linruotian?bitterId=0
+//        return "redirect:/bitter/"+bitter.getUsername();
     }
 
 //    @RequestMapping(value = "/{username}",method = RequestMethod.GET)
@@ -74,5 +80,22 @@ public class BitterController {
             model.addAttribute(bitter);
         }
         return "profile";
+    }
+
+    private void saveImage(String imageName,MultipartFile image) throws ImageUploadException {
+        try {
+            MinioClient minioClient = new MinioClient("http://vm.linruotian.com:9000","billys3","billy11111111");
+             if(minioClient.bucketExists("bitter-dev-img")) {
+                 System.out.println("bucket already exists.");
+             } else {
+                 minioClient.makeBucket("bitter-dev-img");
+             }
+             minioClient.putObject("bitter-dev-img",imageName,image.getInputStream(),image.getSize(),image.getContentType());
+             System.out.println("saveImage: s3保存成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ImageUploadException();
+        }
+
     }
 }

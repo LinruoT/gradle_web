@@ -24,6 +24,14 @@ public class AppWideExceptionHandler {
         modelAndView.addObject("errorType","DuplicateBitterException");
         return modelAndView;
     }
+
+    @ExceptionHandler(ImageUploadException.class)
+    public ModelAndView ImageUploadHandler() {
+        System.out.println("ImageUploadException");
+        ModelAndView modelAndView = new ModelAndView("error/duplicate");
+        modelAndView.addObject("errorType","ImageUploadException");
+        return modelAndView;
+    }
 //    @ExceptionHandler(BittleNotFoundException.class)
 
 }
