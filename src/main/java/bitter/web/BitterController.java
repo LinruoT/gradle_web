@@ -60,7 +60,12 @@ public class BitterController {
                 profilePicture.getOriginalFilename();
         String savePath=request.getServletContext().getRealPath("/");
         System.out.println("savePath: "+savePath);
-        saveImage(imageName,profilePicture);  //s3保存上传的图片
+        try{
+            saveImage(imageName,profilePicture);
+        } catch (Exception e) {
+            throw new ImageUploadException();
+        }
+          //s3保存上传的图片
         File file= new File(savePath+"/"+imageName);
         profilePicture.transferTo(file); //本地保存上传的图片
 
