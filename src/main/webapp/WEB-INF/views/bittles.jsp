@@ -8,13 +8,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
 <html>
 
 <body>
 <div class="bittle">
     <h1>Bit it out...</h1>
+    <h2>Hello <security:authentication property="principal.username" />!</h2>
     <form method="POST" name="bittleForm" accept-charset="UTF-8">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         <input type="hidden" name="latitude">
         <input type="hidden" name="longitude">
         <textarea name="message" cols="80" rows="5"></textarea><br/>

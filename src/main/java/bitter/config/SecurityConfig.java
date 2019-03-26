@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http .csrf().disable();
         http
                 .formLogin()
-                    .loginPage("/login") //需要登陆的时候会跳转到 /login
+//                    .loginPage("/login") //需要登陆的时候会跳转到 /login
                 .and()
                 .logout()
                     .logoutSuccessUrl("/")
@@ -45,12 +45,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .key("bitterKey")
                 .and()
                 .httpBasic()
-                    .realmName("Spittr")
+                    .realmName("Bitter")
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/bitter/me").authenticated()
-                    .antMatchers(HttpMethod.POST,"/bittles").authenticated()
-                    .anyRequest().permitAll();
+                    .antMatchers("/bitter/**").hasRole("BITTER")
+                    .antMatchers("/bittles").authenticated()
+                    .anyRequest().permitAll()
+                .and()
+                .requiresChannel()
+                   // .antMatchers("/bittles").requiresSecure()
+                    .antMatchers("/").requiresInsecure();
     }
 
 }
