@@ -35,6 +35,7 @@ dependencies {
     compile "com.amazonaws:aws-java-sdk-s3:1.11.172"
     compile "io.minio:minio:3.0.10"
     compile "mysql:mysql-connector-java:8.0.11"
+    compile "org.apache.commons:commons-dbcp2:2.6.0"
     compile "org.springframework.security:spring-security-config:$springSecurityVersion"
     compile "org.springframework.security:spring-security-web:$springSecurityVersion"
     compile "org.springframework.security:spring-security-taglibs:$springSecurityVersion"
