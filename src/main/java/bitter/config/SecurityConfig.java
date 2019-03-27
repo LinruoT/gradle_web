@@ -21,8 +21,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected  void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("billy").password("mm321852").roles("USER").and()
-                .withUser("admin").password("tedlrt321852mm321852").roles("USER","ADMIN");
+                .withUser("billy").password("mm321852").roles("BITTER").and()
+                .withUser("admin").password("tedlrt321852mm321852").roles("BITTER","ADMIN");
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select username,password,true from Bitter where username=?")
                 .authoritiesByUsernameQuery("select username,'USER' from Bitter where username=?")
@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/bitter/**").hasRole("BITTER")
-                    .antMatchers("/bittles").authenticated()
+//                    .antMatchers("/bittles").authenticated()
                     .anyRequest().permitAll()
                 .and()
                 .requiresChannel()

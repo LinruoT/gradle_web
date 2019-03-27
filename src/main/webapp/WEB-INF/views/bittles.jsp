@@ -13,17 +13,33 @@
 <html>
 
 <body>
-<div class="bittle">
-    <h1>Bit it out...</h1>
-    <h2>Hello <security:authentication property="principal.username" />!</h2>
-    <form method="POST" name="bittleForm" accept-charset="UTF-8">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-        <input type="hidden" name="latitude">
-        <input type="hidden" name="longitude">
-        <textarea name="message" cols="80" rows="5"></textarea><br/>
-        <input type="submit" value="Add" />
-    </form>
-</div>
+<security:authorize access="isAnonymous()">
+    未登录，<a href="/bitter/register">注册</a>
+</security:authorize>
+<security:authorize access="isAuthenticated()">
+    <security:authentication property="principal.username" var="loginId"/>
+    已经登陆了！！！
+</security:authorize>
+<security:authorize access="hasRole('ROLE_BITTER')">
+    <div class="bittle">
+        <h1>Bit it out...</h1>
+        <h2>Hello ${loginId}!</h2>
+        <form method="POST" name="bittleForm" accept-charset="UTF-8">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+            <input type="hidden" name="latitude">
+            <input type="hidden" name="longitude">
+            <textarea name="message" cols="80" rows="5"></textarea><br/>
+            <input type="submit" value="Add" />
+        </form>
+    </div>
+</security:authorize>
+<security:authorize access="isAuthenticated() and principal.username=='billy'">
+    <div>
+        只有username是billy才显示的：高端黑比利登陆啦！
+        <a href="/bittles/1">bittleId=1</a>
+    </div>
+</security:authorize>
+
 <div class="listTitle">
     <h1>Recent Bittles</h1>
     <ul class="bittleList">
