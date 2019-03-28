@@ -5,9 +5,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.Filter;
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletRegistration;
+import javax.servlet.*;
 
 //DispatcherServletInitializer会自动配置DispatcherServlet和Spring应用上下文Context
 //是传统web.xml代替方案
@@ -22,6 +20,17 @@ public class BitterWebInitializer extends AbstractAnnotationConfigDispatcherServ
         return new Class<?>[] { WebConfig.class };
     }
 
+    //设置profile的值，在选择数据源时会用到
+    @Override
+    public void onStartup(ServletContext context) throws ServletException {
+        super.onStartup(context);
+        String activeProfile = System.getProperty("your.profile.property");
+        if (activeProfile == null) {
+            activeProfile = "production"; // or whatever you want the default to be
+        }
+
+        context.setInitParameter("spring.profiles.active", activeProfile);
+    }
 
     //配置servlet过滤器：把charset设置成utf-8
     @Override

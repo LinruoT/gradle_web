@@ -3,6 +3,7 @@ package bitter.config;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -19,7 +20,8 @@ public class DataConfig {
         return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.H2)
                 .addScript("schema.sql").build();
     }
-//    @Bean //使用jdbc
+    @Profile("development")
+    @Bean //使用jdbc
     public DataSource dataSourceBillyvpsMysql() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -30,6 +32,7 @@ public class DataConfig {
         ds.setPassword("billy11111111");
         return ds;
     }
+    @Profile("production")
     @Bean //使用连接池
     public BasicDataSource dataSourceDBCP() {
         BasicDataSource ds = new BasicDataSource();
