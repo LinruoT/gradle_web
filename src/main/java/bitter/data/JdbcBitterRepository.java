@@ -1,20 +1,18 @@
 package bitter.data;
 
-import bitter.Bitter;
+import bitter.domain.Bitter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-@Repository
+//@Repository
 public class JdbcBitterRepository implements BitterRepository{
     private JdbcOperations jdbc;
 
-    @Autowired //构造器，jdbc Beam在DataConfig类jdbcTemplate(DataSource dataSource)
+    @Autowired //构造器，jdbc Beam自动装配DataConfig类jdbcTemplate(DataSource dataSource)
     public JdbcBitterRepository(JdbcOperations jdbc) {
         this.jdbc=jdbc;
     }

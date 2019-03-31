@@ -1,6 +1,6 @@
 package bitter.data;
 
-import bitter.Bittle;
+import bitter.domain.Bittle;
 
 import java.util.List;
 public interface BittleRepository {

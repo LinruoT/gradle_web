@@ -1,19 +1,30 @@
-package bitter;
+package bitter.domain;
 
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Date;
 
 //推文类，包含消息内容、时间戳、经纬度
+@Entity
 public class Bittle {
-    private final Long id;
-    private final String message;
-    private final Date time;
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private  Long id;
+    @Column
+    private  String message;
+    @Column(name = "created_at")
+    private  Date time;
+    @Column
     private Double latitude;
+    @Column
     private Double longitude;
 
-
+    public Bittle() {}
     public Bittle(String message,Date time) {
         this(null,message,time,null,null);
     }

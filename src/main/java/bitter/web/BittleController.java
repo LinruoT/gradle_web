@@ -1,13 +1,12 @@
 package bitter.web;
 
-import bitter.Bittle;
+import bitter.domain.Bittle;
 import bitter.data.BittleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
 

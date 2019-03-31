@@ -25,10 +25,11 @@ public class BitterWebInitializer extends AbstractAnnotationConfigDispatcherServ
     public void onStartup(ServletContext context) throws ServletException {
         super.onStartup(context);
         String activeProfile = System.getProperty("your.profile.property");
+        System.out.println("检测到（your.profile.property）为"+activeProfile);
         if (activeProfile == null) {
             activeProfile = "production"; // or whatever you want the default to be
         }
-
+        System.out.println("设置spring.profiles.active为"+activeProfile);
         context.setInitParameter("spring.profiles.active", activeProfile);
     }
 

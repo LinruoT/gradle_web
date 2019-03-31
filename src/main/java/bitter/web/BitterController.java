@@ -1,12 +1,9 @@
 package bitter.web;
 
 
-import bitter.Bitter;
+import bitter.domain.Bitter;
 import bitter.data.BitterRepository;
-import com.amazonaws.auth.AWSCredentials;
 import io.minio.MinioClient;
-import io.minio.errors.InvalidEndpointException;
-import io.minio.errors.InvalidPortException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

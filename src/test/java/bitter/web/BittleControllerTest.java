@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
-import bitter.Bittle;
+import bitter.domain.Bittle;
 import bitter.data.BittleRepository;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;

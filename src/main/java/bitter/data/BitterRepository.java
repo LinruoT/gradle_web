@@ -1,6 +1,6 @@
 package bitter.data;
 
-import bitter.Bitter;
+import bitter.domain.Bitter;
 
 //用户库接口
 public interface BitterRepository {
