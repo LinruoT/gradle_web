@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
-@Repository
+//@Repository
+@Transactional
 public class HibernateBitterRepository implements BitterRepository{
     private SessionFactory sessionFactory;
     @Autowired
@@ -28,23 +29,23 @@ public class HibernateBitterRepository implements BitterRepository{
             return sessionFactory.getCurrentSession();
         }
     }
-    @Transactional
+
     public long count() {
         return  findAll().size();
     }
-    @Transactional
+
     public List<Bitter> findAll() {
         return (List<Bitter>) currentSession()
                 .createCriteria(Bitter.class).list();
     }
-    @Transactional
+
     public Bitter findOne(long id) {
         return (Bitter) currentSession().get(Bitter.class, id);
 
     }
 
     @Override
-    @Transactional
+
     public Bitter save(Bitter bitter) {
         Serializable id = currentSession().save(bitter);
         return new Bitter((Long) id,
@@ -56,7 +57,7 @@ public class HibernateBitterRepository implements BitterRepository{
     }
 
     @Override
-    @Transactional
+
     public Bitter findByUsername(String username) {
         return (Bitter) currentSession()
                 .createCriteria(Bitter.class)

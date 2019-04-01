@@ -12,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
-@Repository
+//@Repository
+@Transactional
 public class HibernateBittleRepository implements BittleRepository {
     private SessionFactory sessionFactory;
     @Autowired
@@ -30,20 +31,19 @@ public class HibernateBittleRepository implements BittleRepository {
             return sessionFactory.getCurrentSession();
         }
     }
-    @Transactional
+
     public long count() {
         return findAll().size();
     }
-    @Transactional
+
     public void delete(long id) {
         currentSession().delete(findOne(id));
     }
-    @Transactional
+
     public List<Bittle> findAll() {
         return (List<Bittle>) bittleCriteria().list();
     }
     @Override
-    @Transactional
     public List<Bittle> findBittles(Long max, int count) {
         return (List<Bittle>) bittleCriteria()
                 .setMaxResults(count)
@@ -51,19 +51,17 @@ public class HibernateBittleRepository implements BittleRepository {
     }
 
     @Override
-    @Transactional
     public Bittle findOne(Long id) {
         return (Bittle) currentSession().get(Bittle.class,id);
     }
 
     @Override
-    @Transactional
     public int save(Bittle bittle) {
         Serializable id = currentSession().save(bittle);
 
         return 0;
     }
-    @Transactional
+
     public Criteria bittleCriteria() {
         return currentSession()
                 .createCriteria(Bittle.class)

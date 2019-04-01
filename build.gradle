@@ -28,6 +28,8 @@ dependencies {
     compile "com.h2database:h2:$h2Version"
     compile "org.hibernate:hibernate-core:$hibernateVersion"
     compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
+    compile "org.hibernate:hibernate-entitymanager:$hibernateEntityManagerVersion"
+
     compile "org.apache.commons:commons-lang3:$commonsLangVersion"
     compile "org.thymeleaf:thymeleaf-spring4:$thymeleafVersion"
     compile "org.slf4j:slf4j-api:$slf4jVersion"
