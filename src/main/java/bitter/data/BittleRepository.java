@@ -3,6 +3,7 @@ package bitter.data;
 import bitter.domain.Bitter;
 import bitter.domain.Bittle;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 //public interface BittleRepository {
@@ -11,9 +12,10 @@ import java.util.List;
 //    int save(Bittle bittle);
 //}
 
-//Spring data自动会生成实现类
-public interface BittleRepository extends JpaRepository<Bittle,Long> {
-//    List<Bittle> findBittles(Long max, int count);//bittleID最大值，需要的bittle个数
+//Spring data自动会生成实现类，复杂查询放在 BittleRepositoryCustom，实现放在 同名+Impl
+public interface BittleRepository extends JpaRepository<Bittle,Long>,BittleRepositoryCustom{
+    @Query("select s from Bittle s order by s.id desc")
+    List<Bittle> findAllBittles(); //自定义查询
 
-    List<Bittle> readAllByIdNotNullOrderByIdDesc();
+    List<Bittle> readAllByIdNotNullOrderByIdDesc(); //遵循命名模式的查询，spring data自动实现
 }

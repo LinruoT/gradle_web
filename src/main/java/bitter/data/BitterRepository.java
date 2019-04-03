@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 //Spring data自动会生成实现类
 public interface BitterRepository extends JpaRepository<Bitter,Long> {
+
     Bitter findByUsername(String username);
+
     int countByUsernameNotNull(String username);
 }
