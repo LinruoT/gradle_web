@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -29,9 +30,9 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@ComponentScan
+@EnableJpaRepositories(basePackages="bitter.data")//spring data查找扩展自JpaRepository的接口，自动生成实现
 public class DataConfig implements TransactionManagementConfigurer{
-    @Resource(name="txManager2")
+    @Resource(name="transactionManager")
     private PlatformTransactionManager txManager2;
 //    @Bean //使用嵌入式数据库
 //    public DataSource dataSource() {
@@ -82,25 +83,26 @@ public class DataConfig implements TransactionManagementConfigurer{
 //        return sfb;
 //    }
 
-    @Bean
-    public SessionFactory sessionFactoryBean(DataSource dataSource) {
-        try {
-            LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
-            lsfb.setDataSource(dataSource);
-            lsfb.setPackagesToScan("bitter.domain");
-            Properties props = new Properties();
-            props.setProperty("dialect","org.hibernate.dialect.MySQLDialect");
-            props.setProperty("current_session_context_class","thread");
-            lsfb.setHibernateProperties(props);
-            lsfb.afterPropertiesSet();
-            SessionFactory object = lsfb.getObject();
-            System.out.println("sessionFactoryBean成功！"+object);
-            return object;
-        } catch (IOException e) {
-            System.out.println("sessionFactoryBean错误！");
-            return null;
-        }
-    }
+    //only hibernate
+//    @Bean
+//    public SessionFactory sessionFactoryBean(DataSource dataSource) {
+//        try {
+//            LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
+//            lsfb.setDataSource(dataSource);
+//            lsfb.setPackagesToScan("bitter.domain");
+//            Properties props = new Properties();
+//            props.setProperty("dialect","org.hibernate.dialect.MySQLDialect");
+//            props.setProperty("current_session_context_class","thread");
+//            lsfb.setHibernateProperties(props);
+//            lsfb.afterPropertiesSet();
+//            SessionFactory object = lsfb.getObject();
+//            System.out.println("sessionFactoryBean成功！"+object);
+//            return object;
+//        } catch (IOException e) {
+//            System.out.println("sessionFactoryBean错误！");
+//            return null;
+//        }
+//    }
 //    @Bean(name = "txManager2")
 //    public PlatformTransactionManager transactionManager(SessionFactory sessionFactory) {
 //        System.out.println("sessionFactory: "+sessionFactory);
@@ -120,7 +122,7 @@ public class DataConfig implements TransactionManagementConfigurer{
         return adapter;
     }
     @Bean
-    public LocalContainerEntityManagerFactoryBean emfb(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
         LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean();
         lcemfb.setDataSource(dataSource);
         //不需要设置persistence.xml
@@ -128,7 +130,7 @@ public class DataConfig implements TransactionManagementConfigurer{
         lcemfb.setPackagesToScan("bitter.domain");
         return lcemfb;
     }
-    @Bean(name = "txManager2")
+    @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         System.out.println("emf: "+emf);
         JpaTransactionManager transactionManager = new JpaTransactionManager();
@@ -145,4 +147,5 @@ public class DataConfig implements TransactionManagementConfigurer{
     public BeanPostProcessor persistenceTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
+
 }

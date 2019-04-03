@@ -23,7 +23,8 @@ public class BittleController {
     @RequestMapping(method = RequestMethod.GET)//处理/bittles页面 GET方法：把bittleRepository的列表填充到模型。model是Map （key-value集合）
     public String bittles(Model model,@RequestParam(value = "max",defaultValue = ""+Long.MAX_VALUE) long max, //含有两个参数max和count，路径是/bittles?count=20
                           @RequestParam(value = "count",defaultValue = "20")int count) {
-        List<Bittle> bittleList=bittleRepository.findBittles(max,count);
+//        List<Bittle> bittleList=bittleRepository.findBittles(max,count);
+        List<Bittle> bittleList=bittleRepository.readAllByIdNotNullOrderByIdDesc();
         for(Bittle oneBittle:bittleList) {
             System.out.println(oneBittle.getMessage());
         }
@@ -49,7 +50,7 @@ public class BittleController {
     @RequestMapping(method = RequestMethod.POST) //接受表单，新建一个bittle
     public String saveBittle(BittleForm bittleForm) {
         Bittle bittle=new Bittle(bittleForm.getMessage(),new Date());
-        if(bittleRepository.save(bittle)==1) {
+        if(bittleRepository.save(bittle).getId()<10) {
             throw new DuplicateBittleException();
         }
         return "redirect:/bittles";
