@@ -20,7 +20,9 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        return new MongoClient();//Creates an instance based on a (single) mongodb node (localhost, default port)
+        MongoClient mongoClient = new MongoClient("localhost");
+        System.out.println("mongo server address: "+mongoClient.getAddress());
+        return mongoClient;
     }
 
 

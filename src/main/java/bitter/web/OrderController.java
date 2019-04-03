@@ -28,7 +28,12 @@ public class OrderController {
         for(Order oneOrder:orderList) {
             System.out.println(oneOrder.getId()+oneOrder.getCustomer()+oneOrder.getType());
         }
-
+        Order order = new Order();
+        order.setCustomer("billy");
+        order.setType("gaoduanhei maimaimai test");
+        System.out.println("saving test order to mongo");
+        orderRepository.save(order);
+        System.out.println("saved");
         model.addAttribute("orderList",orderList);
         model.addAttribute(new BittleForm());
         return "orders";
