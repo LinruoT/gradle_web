@@ -29,6 +29,9 @@
     <definition name="bittle" extends="base">
         <put-attribute name="body" value="/WEB-INF/views/bittle.jsp" />
     </definition>
+    <definition name="orders" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/orders.jsp" />
+    </definition>
 
     <definition name="error/duplicate" extends="base">
         <put-attribute name="body" value="/WEB-INF/views/error/duplicate.jsp" />
