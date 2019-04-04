@@ -2,7 +2,7 @@
   Created by IntelliJ IDEA.
   User: home
   Date: 2019/4/4
-  Time: 0:40
+  Time: 17:22
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -22,14 +22,14 @@
 </security:authorize>
 
 <div class="listTitle">
-    <h1>Orders</h1>
-    <ul class="bittleList">
-        <c:forEach items="${orderList}" var="order" >
-            <li id="order_<c:out value="order.id"/>">
-                <div class="orderId"><c:out value="${order.id}" /></div>
+    <h1>Products</h1>
+    <ul class="productList">
+        <c:forEach items="${productList}" var="product" >
+            <li id="product_<c:out value="product.sku"/>">
+                <div class="orderId"><c:out value="${product.sku}" /></div>
                 <div>
-                    <span class="orderCustomer"><c:out value="${order.customer}" /></span>
-                    <span class="orderType">(<c:out value="${order.type}" />)</span>
+                    <span class="orderCustomer"><c:out value="${product.name}" /></span>
+                    <span class="orderType">(<c:out value="${product.price}" /> )</span>
                 </div>
             </li>
         </c:forEach>

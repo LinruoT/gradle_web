@@ -37,4 +37,8 @@
         <put-attribute name="body" value="/WEB-INF/views/error/duplicate.jsp" />
     </definition>
 
+    <definition name="products" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/products.jsp" />
+    </definition>
+
 </tiles-definitions>

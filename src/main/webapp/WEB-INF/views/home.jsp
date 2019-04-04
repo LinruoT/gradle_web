@@ -8,5 +8,6 @@
     <a href="<c:url value="/bittles/2333" />">BittleID=2333</a>
     <a href="<c:url value="/bitter/register" />">Bitter Register</a>
     <a href="<c:url value="/orders" />">Orders</a>
+    <a href="<c:url value="/products" />">Products</a>
   </body>
 
