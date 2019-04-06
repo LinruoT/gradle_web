@@ -14,5 +14,4 @@ public interface BitterRepository extends JpaRepository<Bitter,Long> {
 
     Bitter findByUsername(String username);
 
-    int countByUsernameNotNull(String username);
 }

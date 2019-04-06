@@ -18,4 +18,5 @@ public interface BittleRepository extends JpaRepository<Bittle,Long>,BittleRepos
     List<Bittle> findAllBittles(); //自定义查询
 
     List<Bittle> readAllByIdNotNullOrderByIdDesc(); //遵循命名模式的查询，spring data自动实现
+
 }

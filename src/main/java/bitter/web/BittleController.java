@@ -37,9 +37,11 @@ public class BittleController {
     public String bittle(@PathVariable Long bittleId, Model model) {
         Bittle bittle=null;
         try {
-            bittle=bittleRepository.findOne(bittleId);
+            bittle=bittleRepository.findOneWithCache(bittleId);
         } catch (Exception e) {
-
+            System.out.println("find bittle error");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         if(bittle==null) {
             throw new BittleNotFoundException();

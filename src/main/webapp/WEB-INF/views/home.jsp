@@ -4,6 +4,7 @@
   <body>
     <h1>Welcome to Bittler高端黑</h1>
     <h2>HomeController's Time: ${time}</h2>
+    <h4>总用户数：${bitterCount} 总推文数：${bittleCount}</h4>
     <a href="<c:url value="/bittles" />">Bittles</a> |
     <a href="<c:url value="/bittles/2333" />">BittleID=2333</a>
     <a href="<c:url value="/bitter/register" />">Bitter Register</a>
