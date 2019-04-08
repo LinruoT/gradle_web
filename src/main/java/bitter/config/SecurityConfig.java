@@ -1,6 +1,7 @@
 package bitter.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,19 +15,23 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebMvcSecurity
+@ComponentScan
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
 
     @Override
     protected  void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("billy").password("mm321852").roles("BITTER").and()
-                .withUser("admin").password("tedlrt321852mm321852").roles("BITTER","ADMIN");
+//        auth.inMemoryAuthentication()
+//                .withUser("billy").password("mm321852").roles("BITTER").and()
+//                .withUser("admin").password("tedlrt321852mm321852").roles("BITTER","ADMIN");
+//        auth.jdbcAuthentication().dataSource(dataSource)
+//                .usersByUsernameQuery("select username,password,true from Bitter where username=?")
+//                .authoritiesByUsernameQuery("select username,'USER' from Bitter where username=?")
+//                .passwordEncoder(new StandardPasswordEncoder("gaoduanhei"));
         auth.jdbcAuthentication().dataSource(dataSource)
-                .usersByUsernameQuery("select username,password,true from Bitter where username=?")
-                .authoritiesByUsernameQuery("select username,'USER' from Bitter where username=?")
-                .passwordEncoder(new StandardPasswordEncoder("gaoduanhei"));
+                .usersByUsernameQuery("select username, password, true from Bitter where username=?")
+                .authoritiesByUsernameQuery("select username, 'ROLE_BITTER' from Bitter where username=?");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
