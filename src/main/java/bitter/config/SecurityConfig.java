@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http .csrf().disable();
         http
                 .formLogin()
-//                    .loginPage("/login") //需要登陆的时候会跳转到 /login
+                    .loginPage("/login") //需要登陆的时候会跳转到 /login
                 .and()
                 .logout()
                     .logoutSuccessUrl("/")
