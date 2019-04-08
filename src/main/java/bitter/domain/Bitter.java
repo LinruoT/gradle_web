@@ -31,7 +31,7 @@ public class Bitter {
     private String lastName;
 
     @NotNull
-    @Size(min = 5,max = 25,message = "{password.size}")
+    @Size(min = 5,max = 250,message = "{password.size}")
     @Column(name="password")
     private String password;
 

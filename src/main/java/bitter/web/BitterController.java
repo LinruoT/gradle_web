@@ -5,6 +5,8 @@ import bitter.domain.Bitter;
 import bitter.data.BitterRepository;
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -49,6 +51,7 @@ public class BitterController {
                                       RedirectAttributes redirectAttributes,
                                       HttpServletRequest request) throws Exception {
         if(errors.hasErrors()) { return "registerForm"; }//有错误 则注册页面
+        bitter.setPassword(new StandardPasswordEncoder("gaoduanhei").encode(bitter.getPassword()));
         if(bitterRepository.save(bitter)==null) {
             throw new DuplicateBitterException();
         }

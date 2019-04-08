@@ -14,7 +14,7 @@
 
 <body>
 <security:authorize access="isAnonymous()">
-    未登录，<a href="/bitter/register">注册</a>
+    未登录，<a href="/bitter/register">注册</a> <a href="/login">登陆</a>
 </security:authorize>
 <security:authorize access="isAuthenticated()">
     <security:authentication property="principal.username" var="loginId"/>

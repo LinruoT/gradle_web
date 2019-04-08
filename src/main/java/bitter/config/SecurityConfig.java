@@ -25,13 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth.inMemoryAuthentication()
 //                .withUser("billy").password("mm321852").roles("BITTER").and()
 //                .withUser("admin").password("tedlrt321852mm321852").roles("BITTER","ADMIN");
-//        auth.jdbcAuthentication().dataSource(dataSource)
-//                .usersByUsernameQuery("select username,password,true from Bitter where username=?")
-//                .authoritiesByUsernameQuery("select username,'USER' from Bitter where username=?")
-//                .passwordEncoder(new StandardPasswordEncoder("gaoduanhei"));
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select username, password, true from Bitter where username=?")
-                .authoritiesByUsernameQuery("select username, 'ROLE_BITTER' from Bitter where username=?");
+                .authoritiesByUsernameQuery("select username, 'ROLE_BITTER' from Bitter where username=?")
+                .passwordEncoder(new StandardPasswordEncoder("gaoduanhei"));
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -53,12 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .realmName("Bitter")
                 .and()
                 .authorizeRequests()
-                    .antMatchers("/bitter/**").hasRole("BITTER")
+//                    .antMatchers("/bitter/**").hasRole("BITTER")
 //                    .antMatchers("/bittles").authenticated()
                     .anyRequest().permitAll()
                 .and()
                 .requiresChannel()
-                   // .antMatchers("/bittles").requiresSecure()
                     .antMatchers("/").requiresInsecure();
     }
 
