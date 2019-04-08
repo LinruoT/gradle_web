@@ -1,5 +1,7 @@
 package bitter.web;
 
+import bitter.data.BitterRepository;
+import bitter.domain.Bitter;
 import bitter.domain.Bittle;
 import bitter.data.BittleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -15,9 +18,11 @@ import java.util.List;
 @RequestMapping("/bittles")
 public class BittleController {
     private BittleRepository bittleRepository;
+    private BitterRepository bitterRepository;
     @Autowired//构造器传入bittles数据，bittleRepository的实现是JdbcBittleRepository
-    public BittleController(BittleRepository bittleRepository) {
+    public BittleController(BittleRepository bittleRepository,BitterRepository bitterRepository) {
         this.bittleRepository=bittleRepository;
+        this.bitterRepository=bitterRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)//处理/bittles页面 GET方法：把bittleRepository的列表填充到模型。model是Map （key-value集合）
@@ -50,8 +55,10 @@ public class BittleController {
         return "bittle";
     }
     @RequestMapping(method = RequestMethod.POST) //接受表单，新建一个bittle
-    public String saveBittle(BittleForm bittleForm) {
-        Bittle bittle=new Bittle(bittleForm.getMessage(),new Date());
+    public String saveBittle(BittleForm bittleForm, Principal principal) {
+
+        Bitter bitter=bitterRepository.findByUsername(principal.getName());
+        Bittle bittle=new Bittle(null,bitter,bittleForm.getMessage(),new Date(),bittleForm.getLongitude(),bittleForm.getLatitude());
         if(bittleRepository.save(bittle).getId()<10) {
             throw new DuplicateBittleException();
         }

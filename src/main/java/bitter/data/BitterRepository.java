@@ -3,6 +3,8 @@ package bitter.data;
 import bitter.domain.Bitter;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 //用户库接口
 //public interface BitterRepository {
 //    Bitter save(Bitter bitter);
@@ -13,5 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface BitterRepository extends JpaRepository<Bitter,Long> {
 
     Bitter findByUsername(String username);
-
+    List<Bitter> findByUsernameOrFirstNameOrLastNameLike(String username, String firstName,String lastName);
 }

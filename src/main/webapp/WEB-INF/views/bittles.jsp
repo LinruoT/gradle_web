@@ -18,12 +18,12 @@
 </security:authorize>
 <security:authorize access="isAuthenticated()">
     <security:authentication property="principal.username" var="loginId"/>
-    已经登陆了！！！
+    已经登陆了！！！  <a href="/logout">退出</a>
 </security:authorize>
 <security:authorize access="hasRole('ROLE_BITTER')">
     <div class="bittle">
         <h1>Bit it out...</h1>
-        <h2>Hello ${loginId}!</h2>
+        <h3>Hello ${loginId}!</h3>
         <form method="POST" name="bittleForm" accept-charset="UTF-8">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <input type="hidden" name="latitude">
@@ -47,6 +47,7 @@
             <li id="bittle_<c:out value="bittle.id"/>">
                 <div class="bittleMessage"><c:out value="${bittle.message}" /></div>
                 <div>
+                    <span class="bitterName"><c:out value="${bittle.bitter.firstName} ${bittle.bitter.lastName}" /></span>
                     <span class="bittleTime"><c:out value="${bittle.time}" /></span>
                     <span class="bittleLocation">(<c:out value="${bittle.latitude}" />, <c:out value="${bittle.longitude}" />)</span>
                 </div>

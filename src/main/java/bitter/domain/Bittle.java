@@ -1,10 +1,7 @@
 package bitter.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Date;
@@ -15,6 +12,9 @@ public class Bittle {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private  Long id;
+    @ManyToOne
+    @JoinColumn(name="bitter")
+    private Bitter bitter;
     @Column
     private  String message;
     @Column(name = "created_at")
@@ -25,15 +25,22 @@ public class Bittle {
     private Double longitude;
 
     public Bittle() {}
-    public Bittle(String message,Date time) {
-        this(null,message,time,null,null);
-    }
-    public Bittle(Long id,String message,Date time,Double longitude,Double latitude) {
+
+    public Bittle(Long id,Bitter bitter,String message,Date time,Double longitude,Double latitude) {
+        this.bitter=bitter;
         this.id=id;
         this.message=message;
         this.time=time;
         this.longitude=longitude;
         this.latitude=latitude;
+    }
+
+    public Bitter getBitter() {
+        return bitter;
+    }
+
+    public void setBitter(Bitter bitter) {
+        this.bitter = bitter;
     }
 
     public Long getId() {

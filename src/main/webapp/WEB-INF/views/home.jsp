@@ -1,7 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page session="false" contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8" %>
 
   <body>
+  <security:authorize access="isAnonymous()">
+    未登录，<a href="/bitter/register">注册</a>     <a href="/login">登陆</a>
+  </security:authorize>
+  <security:authorize access="isAuthenticated()">
+    <security:authentication property="principal.username" var="loginId"/>
+    Hello ${loginId}!  <a href="/logout">退出</a>
+  </security:authorize>
     <h1>Welcome to Bittler高端黑</h1>
     <h2>HomeController's Time: ${time}</h2>
     <h4>总用户数：${bitterCount} 总推文数：${bittleCount}</h4>

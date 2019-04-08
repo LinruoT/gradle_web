@@ -33,14 +33,15 @@ public class BitterWebInitializer extends AbstractAnnotationConfigDispatcherServ
         context.setInitParameter("spring.profiles.active", activeProfile);
     }
 
-    //配置servlet过滤器：把charset设置成utf-8
-    @Override
-    protected Filter[] getServletFilters() {
-        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-        characterEncodingFilter.setEncoding("UTF-8");
-        characterEncodingFilter.setForceEncoding(true);
-        return new Filter[] {characterEncodingFilter};
-    }
+    //配置servlet过滤器：把charset设置成utf-8，在security里面配置filter
+//    @Override
+//    protected Filter[] getServletFilters() {
+//        System.out.println("开始创建characterEncodingFilter");
+//        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+//        characterEncodingFilter.setEncoding("UTF-8");
+//        characterEncodingFilter.setForceEncoding(true);
+//        return new Filter[] {characterEncodingFilter};
+//    }
 
     @Override
     protected String[] getServletMappings() {
