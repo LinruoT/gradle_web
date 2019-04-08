@@ -20,7 +20,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Override
     public Mongo mongo() throws Exception {
-        MongoClient mongoClient = new MongoClient("localhost");
+        MongoClient mongoClient = new MongoClient("billyvps.cf");
         System.out.println("mongo server address: "+mongoClient.getAddress());
         return mongoClient;
     }
