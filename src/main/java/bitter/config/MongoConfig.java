@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+//注意！！！ billyvps.cf没有设置密码
 @Configuration
 @EnableMongoRepositories(basePackages = "bitter.mongo.db")
 public class MongoConfig extends AbstractMongoConfiguration {
