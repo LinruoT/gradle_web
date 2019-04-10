@@ -25,7 +25,7 @@ import java.io.IOException;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("bitter.web")
+@ComponentScan({"bitter.web","bitter.api"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     //JSP视图解析器（解析逻辑视图名称）：InternalResourceViewResolver，现在改成用apache tiles

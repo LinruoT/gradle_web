@@ -52,7 +52,7 @@ dependencies {
     compile "javax.inject:javax.inject:1"
     compile "org.thymeleaf.extras:thymeleaf-extras-springsecurity3:2.1.1.RELEASE"
     compile "org.springframework.ldap:spring-ldap-core:2.0.1.RELEASE"
-    
+    compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
     compile ("org.apache.tiles:tiles-core:$tilesVersion") {
         exclude group: 'org.slf4j'
     }
