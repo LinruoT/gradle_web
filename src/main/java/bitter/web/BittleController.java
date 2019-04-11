@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.security.Principal;
 import java.util.Date;
@@ -67,6 +68,20 @@ public class BittleController {
             throw new DuplicateBittleException();
         }
         return "redirect:/bittles";
+    }
+
+    @RequestMapping(value = "/testapi/{bittleId}",method = RequestMethod.GET)
+    public String testApiBittle(@PathVariable Long bittleId,Model model) {
+        System.out.println("testapi: /bittles/testapi/{bittleId}");
+        Bittle bittle;
+        RestTemplate restTemplate= new RestTemplate();
+        bittle = restTemplate.getForObject("http://localhost:8080/bittles/{bittle}",
+                Bittle.class,bittleId);
+        if(bittle==null) {
+            throw new BittleNotFoundException();
+        }
+        model.addAttribute("bittle",bittle);
+        return "bittle";
     }
 
     //已经集中在AppWideExceptionHandler了
