@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jms.connection.JmsTransactionManager;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.annotation.Resource;
+import javax.jms.ConnectionFactory;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -32,7 +34,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages="bitter.data")//spring data查找扩展自JpaRepository的接口，自动生成实现
 public class DataConfig implements TransactionManagementConfigurer{
-    @Resource(name="transactionManager")
+    @Resource(name="txManager2")
     private PlatformTransactionManager txManager2;
 //    @Bean //使用嵌入式数据库
 //    public DataSource dataSource() {
@@ -130,14 +132,15 @@ public class DataConfig implements TransactionManagementConfigurer{
         lcemfb.setPackagesToScan("bitter.domain");
         return lcemfb;
     }
-    @Bean(name = "transactionManager")
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+    @Bean(name = "txManager2")
+    public JpaTransactionManager txManager2(EntityManagerFactory emf) {
         System.out.println("emf: "+emf);
-        JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(emf);
-        return transactionManager;
+        JpaTransactionManager transactionManager2 = new JpaTransactionManager();
+        transactionManager2.setEntityManagerFactory(emf);
+        return transactionManager2;
     }
     @Override
+    @Bean(name = "transactionManager")
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return txManager2;
     }

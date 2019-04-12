@@ -4,7 +4,7 @@ import bitter.data.BitterRepository;
 import bitter.domain.Bitter;
 import bitter.domain.Bittle;
 import bitter.data.BittleRepository;
-import bitter.mq.AlertService;
+
 import bitter.service.BittleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,14 +25,14 @@ public class BittleController {
     private BittleRepository bittleRepository;
     private BitterRepository bitterRepository;
     private BittleService bittleService;
-    private AlertService alertService;
+
     @Autowired//构造器传入bittles数据，bittleRepository的实现是JdbcBittleRepository
     public BittleController(BittleRepository bittleRepository, BitterRepository bitterRepository,
-                            BittleService bittleService, AlertService alertService) {
+                            BittleService bittleService) {
         this.bittleRepository=bittleRepository;
         this.bitterRepository=bitterRepository;
         this.bittleService=bittleService;
-        this.alertService=alertService;
+
     }
 
     @RequestMapping(method = RequestMethod.GET)//处理/bittles页面 GET方法：把bittleRepository的列表填充到模型。model是Map （key-value集合）
@@ -89,10 +89,6 @@ public class BittleController {
         }
         model.addAttribute("bittle",bittle);
 
-        //测试MQ
-        System.out.println("test: sendBittleAlert To MQ");
-        alertService.sendBittleAlert("gaoduanhei");
-        alertService.sendBittleAlertToDefault("gaoduanhei-default");
 
 
         return "bittle";

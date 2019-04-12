@@ -52,7 +52,7 @@ dependencies {
     compile "org.springframework.security:spring-security-web:$springSecurityVersion"
     compile "org.springframework.security:spring-security-taglibs:$springSecurityVersion"
     compile "javax.inject:javax.inject:1"
-    ompile "org.apache.xbean:xbean-spring:3.7"
+    compile "org.apache.xbean:xbean-spring:3.7"
     compile "org.thymeleaf.extras:thymeleaf-extras-springsecurity3:2.1.1.RELEASE"
     compile "org.springframework.ldap:spring-ldap-core:2.0.1.RELEASE"
     compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion"
