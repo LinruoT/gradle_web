@@ -26,6 +26,10 @@
         <put-attribute name="body" value="/WEB-INF/views/bittles.jsp" />
     </definition>
 
+    <definition name="testapibittle" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/testapibittle.jsp" />
+    </definition>
+
     <definition name="bittle" extends="base">
         <put-attribute name="body" value="/WEB-INF/views/bittle.jsp" />
     </definition>
