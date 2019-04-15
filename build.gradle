@@ -27,6 +27,8 @@ dependencies {
     compile "org.springframework:spring-orm:$springVersion"
     compile "org.springframework:spring-jms:$springVersion"
     compile "org.springframework.data:spring-data-jpa:$springDataJpaVersion"
+    compile "org.springframework.amqp:spring-amqp:$springAMQPVersion"
+    compile "org.springframework.amqp:spring-rabbit:$springAMQPVersion"
     compile "com.h2database:h2:$h2Version"
     compile "org.hibernate:hibernate-core:$hibernateVersion"
     compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"

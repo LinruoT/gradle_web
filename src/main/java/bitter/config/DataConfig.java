@@ -34,7 +34,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages="bitter.data")//spring data查找扩展自JpaRepository的接口，自动生成实现
 public class DataConfig implements TransactionManagementConfigurer{
-    @Resource(name="txManager2")
+    @Resource(name="transactionManager")
     private PlatformTransactionManager txManager2;
 //    @Bean //使用嵌入式数据库
 //    public DataSource dataSource() {
@@ -132,15 +132,14 @@ public class DataConfig implements TransactionManagementConfigurer{
         lcemfb.setPackagesToScan("bitter.domain");
         return lcemfb;
     }
-    @Bean(name = "txManager2")
-    public JpaTransactionManager txManager2(EntityManagerFactory emf) {
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         System.out.println("emf: "+emf);
-        JpaTransactionManager transactionManager2 = new JpaTransactionManager();
-        transactionManager2.setEntityManagerFactory(emf);
-        return transactionManager2;
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
+        return transactionManager;
     }
     @Override
-    @Bean(name = "transactionManager")
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return txManager2;
     }

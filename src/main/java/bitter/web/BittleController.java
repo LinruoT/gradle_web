@@ -1,5 +1,6 @@
 package bitter.web;
 
+import bitter.alerts.AlertService;
 import bitter.data.BitterRepository;
 import bitter.domain.Bitter;
 import bitter.domain.Bittle;
@@ -25,14 +26,15 @@ public class BittleController {
     private BittleRepository bittleRepository;
     private BitterRepository bitterRepository;
     private BittleService bittleService;
+    private AlertService alertService;
 
     @Autowired//构造器传入bittles数据，bittleRepository的实现是JdbcBittleRepository
     public BittleController(BittleRepository bittleRepository, BitterRepository bitterRepository,
-                            BittleService bittleService) {
+                            BittleService bittleService, AlertService alertService) {
         this.bittleRepository=bittleRepository;
         this.bitterRepository=bitterRepository;
         this.bittleService=bittleService;
-
+        this.alertService=alertService;
     }
 
     @RequestMapping(method = RequestMethod.GET)//处理/bittles页面 GET方法：把bittleRepository的列表填充到模型。model是Map （key-value集合）
@@ -69,7 +71,8 @@ public class BittleController {
         if(errors.hasErrors()) { return "bittles"; }
         Bitter bitter=bitterRepository.findByUsername(principal.getName());
         Bittle bittle=new Bittle(null,bitter,bittleForm.getMessage(),new Date(),bittleForm.getLongitude(),bittleForm.getLatitude());
-        bittleService.addBittle(bittle);
+        bittleService.addBittle(bittle); //这个方法是被spring security保护的
+        alertService.sendBittleAlert(bittle);
         if(bittleRepository.save(bittle).getId()<10) {
             throw new DuplicateBittleException();
         }

@@ -2,9 +2,9 @@ package bitter.service;
 
 import bitter.domain.Bittle;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class SecuredBittleService implements BittleService {
     @Override
     @Secured({"ROLE_BITTER","ROLE_ADMIN"})
