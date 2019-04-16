@@ -8,6 +8,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.amqp.core.MessageProperties.CONTENT_TYPE_TEXT_PLAIN;
+
 @Service
 public class AlertServiceImpl implements AlertService {
     private AmqpTemplate rabbit;
@@ -20,8 +22,10 @@ public class AlertServiceImpl implements AlertService {
     public void sendBittleAlert(Bittle bittle) {
         try {
             System.out.println("send hello world");
+            MessageProperties messageProperties = new MessageProperties();
+            messageProperties.setContentType(CONTENT_TYPE_TEXT_PLAIN);
             rabbit.send("hello.exchange","hello.routing",
-                    new Message("Hello World! gaoduanhei".getBytes(),new MessageProperties()));
+                    new Message(("Hello World! "+bittle.getMessage()).getBytes(),messageProperties));
 
             rabbit.convertAndSend(bittle);
         } catch (Exception e) {
