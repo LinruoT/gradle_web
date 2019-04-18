@@ -5,6 +5,7 @@ import bitter.mongo.Item;
 import bitter.mongo.Order;
 import bitter.mongo.db.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,7 @@ public class OrderController {
     @RequestMapping(method = RequestMethod.GET)//处理/bittles页面 GET方法：把bittleRepository的列表填充到模型。model是Map （key-value集合）
     public String orders(Model model, @RequestParam(value = "max",defaultValue = ""+Long.MAX_VALUE) long max, //含有两个参数max和count，路径是/bittles?count=20
                           @RequestParam(value = "count",defaultValue = "20")int count) {
-        List<Order> orderList=orderRepository.findAll();
+        List<Order> orderList=orderRepository.findAll(new Sort(Sort.Direction.DESC,"_id"));
         for(Order oneOrder:orderList) {
             System.out.println(oneOrder.getId()+oneOrder.getCustomer()+oneOrder.getType());
         }

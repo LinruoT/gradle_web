@@ -1,19 +1,20 @@
 package bitter.config;
 
+import bitter.alertHandles.HelloHandler;
 import bitter.domain.Bittle;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.connection.RabbitAccessor;
+import org.springframework.amqp.rabbit.core.ChannelAwareMessageListener;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Date;
 
 @Configuration
 public class RabbitMQConfig {
@@ -43,8 +44,20 @@ public class RabbitMQConfig {
     public AmqpTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         System.out.println("rabbitTemplate");
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-
         return rabbitTemplate;
+    }
+
+
+    @Bean
+    public SimpleMessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory, HelloHandler helloHandler){
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        //队列可以是多个，参数是String的数组
+        container.setQueueNames("hello.queue");
+        MessageListenerAdapter adapter = new MessageListenerAdapter(helloHandler);
+        adapter.setDefaultListenerMethod("handleHello");
+        container.setMessageListener(adapter);
+        return container;
     }
 
 

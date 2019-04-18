@@ -26,11 +26,11 @@
     <ul class="bittleList">
         <c:forEach items="${orderList}" var="order" >
             <li id="order_<c:out value="order.id"/>">
-                <div class="orderId"><c:out value="${order.id}" /></div>
                 <div>
                     <span class="orderCustomer"><c:out value="${order.customer}" /></span>
                     <span class="orderType">(<c:out value="${order.type}" />)</span>
                 </div>
+                <div class="orderId" style="font-size:12px"><c:out value="${order.id}" /></div>
             </li>
         </c:forEach>
     </ul>
