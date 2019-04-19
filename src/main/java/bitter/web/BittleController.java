@@ -6,7 +6,6 @@ import bitter.domain.Bitter;
 import bitter.domain.Bittle;
 import bitter.data.BittleRepository;
 
-import bitter.feed.BittleFeedService;
 import bitter.service.BittleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

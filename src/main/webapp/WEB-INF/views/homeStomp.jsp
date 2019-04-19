@@ -33,7 +33,8 @@
 
       stomp.connect('guest', 'guest', function(frame) {
         console.log('*****  Connected  *****');
-        stomp.subscribe("/topic/bittlefeed", handleBittle);
+        // stomp.subscribe("/topic/bittlefeed", handleBittle);
+        stomp.subscribe("/topic/bittlefeed", handleNotification);
         stomp.subscribe("/user/queue/notifications", handleNotification);
       });
       

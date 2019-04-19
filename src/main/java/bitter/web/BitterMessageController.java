@@ -5,12 +5,9 @@ import bitter.data.BittleRepository;
 import bitter.domain.Bitter;
 import bitter.domain.Bittle;
 import bitter.domain.Notification;
-import bitter.feed.BittleFeedService;
-import bitter.web.BittleForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SendToUser;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
