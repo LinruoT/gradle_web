@@ -1,8 +1,7 @@
 package bitter.config;
 
 import bitter.web.WebConfig;
-import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.filter.DelegatingFilterProxy;
+import bitter.web.WebSocketStompConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.*;
@@ -17,7 +16,7 @@ public class BitterWebInitializer extends AbstractAnnotationConfigDispatcherServ
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] { WebConfig.class };
+        return new Class<?>[] { WebConfig.class, WebSocketStompConfig.class};
     }
 
     //设置profile的值，在选择数据源时会用到
@@ -51,5 +50,6 @@ public class BitterWebInitializer extends AbstractAnnotationConfigDispatcherServ
     @Override//重载customizeRegistration，对dispatcherServlet进行额外配置
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
         registration.setMultipartConfig(new MultipartConfigElement("",4194304,8388608,0));
+        registration.setAsyncSupported(true);
     }
 }

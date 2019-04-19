@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .realmName("Bitter")
                 .and()
                 .authorizeRequests()
-//                    .antMatchers("/bitter/**").hasRole("BITTER")
+                    .antMatchers("/homestomp").hasRole("BITTER")
 //                    .antMatchers("/bittles").authenticated()
                     .anyRequest().permitAll()
                 .and()

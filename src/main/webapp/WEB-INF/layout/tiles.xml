@@ -49,4 +49,8 @@
         <put-attribute name="body" value="/WEB-INF/views/login.jsp" />
     </definition>
 
+    <definition name="homestomp" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/homeStomp.jsp" />
+    </definition>
+
 </tiles-definitions>
