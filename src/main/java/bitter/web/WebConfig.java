@@ -80,6 +80,23 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 //        templateResolver.setTemplateMode("HTML5");
 //        return templateResolver;
 //    }
+
+// TODO: 2019/4/20 仅在Email模板使用thymleaf
+    @Bean
+    public SpringTemplateEngine templateEngine(TemplateResolver templateResolver) {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver);
+        return templateEngine;
+    }
+    @Bean
+    public TemplateResolver templateResolver() {
+        TemplateResolver templateResolver = new ServletContextTemplateResolver();
+        templateResolver.setPrefix("mail/"); //类路径的mail目录
+        templateResolver.setTemplateMode("HTML5");
+        templateResolver.setCharacterEncoding("UTF-8");
+        return templateResolver;
+    }
+
     @Bean
     public MultipartResolver multipartResolver() throws IOException {
         return new StandardServletMultipartResolver();

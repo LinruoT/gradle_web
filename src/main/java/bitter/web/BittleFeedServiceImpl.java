@@ -33,6 +33,7 @@ public class BittleFeedServiceImpl implements BittleFeedService{
         messaging.convertAndSend("/topic/bittlefeed", new Notification(bittle.getMessage())); //转成json
         //todo: @用户，只是SendToUser
         Matcher matcher = pattern.matcher(bittle.getMessage());
+
         if (matcher.find()) {
             String user2 = matcher.group(1);
             System.out.println(user1+" @了 "+user2);

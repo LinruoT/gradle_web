@@ -32,7 +32,7 @@ dependencies {
     compile "org.springframework:spring-messaging:$springVersion"
     compile "org.springframework:spring-context:$springVersion"
     compile "org.projectreactor:reactor-tcp:1.0.0.RELEASE"
-
+    compile "javax.mail:mail:$javaxMailVersion"
     compile "org.springframework.data:spring-data-jpa:$springDataJpaVersion"
     compile "org.springframework.amqp:spring-amqp:$springAMQPVersion"
     compile "org.springframework.amqp:spring-rabbit:$springAMQPVersion"
