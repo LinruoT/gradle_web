@@ -99,7 +99,7 @@ public class BittleController {
 
         return "bittle";
     }
-    //POST API还存在问题
+    //POST API还存在问题 （是csrf的引起的，关闭可以解决）
     @RequestMapping(value = "/testapi",method = RequestMethod.GET)
     public String testapiBittleForm(Model model) {
         model.addAttribute(new BittleForm());
