@@ -3,6 +3,7 @@ package bitter.config;
 import bitter.web.WebConfig;
 import bitter.web.WebSocketStompConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import org.springframework.web.util.Log4jConfigListener;
 
 import javax.servlet.*;
 
@@ -28,8 +29,18 @@ public class BitterWebInitializer extends AbstractAnnotationConfigDispatcherServ
         if (activeProfile == null) {
             activeProfile = "production"; // or whatever you want the default to be
         }
+
+        System.out.println("设置log4j");
+        context.addListener(Log4jConfigListener.class);
+        //context.addListener(WebSessionListener.class);
+        context.setInitParameter("webAppRootKey", "spring4.root");
+        context.setInitParameter("log4jConfigLocation", "classpath:log4j.properties");
+        context.setInitParameter("log4jRefreshInterval", "10000");
+
         System.out.println("设置spring.profiles.active为"+activeProfile);
         context.setInitParameter("spring.profiles.active", activeProfile);
+
+        //super.onStartup(context);
     }
 
     //配置servlet过滤器：把charset设置成utf-8，在security里面配置filter
