@@ -47,7 +47,7 @@ public class DataConfig implements TransactionManagementConfigurer{
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
         ds.setUrl("jdbc:mysql://billyvps.cf:3306/bitter" +
-                "?useUnicode=true&characterEncoding=UTF-8" +
+                "?useUnicode=true&autoReconnect=true" +
                 "&serverTimezone=Asia/Shanghai&useSSL=false");
         ds.setUsername("billyvps");
         ds.setPassword("billy11111111");
@@ -59,7 +59,7 @@ public class DataConfig implements TransactionManagementConfigurer{
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
         ds.setUrl("jdbc:mysql://billyvps.cf:3306/bitter" +
-                "?useUnicode=true&characterEncoding=UTF-8" +
+                "?useUnicode=true&autoReconnect=true" +
                 "&serverTimezone=Asia/Shanghai&useSSL=false");
         ds.setUsername("billyvps");
         ds.setPassword("billy11111111");
