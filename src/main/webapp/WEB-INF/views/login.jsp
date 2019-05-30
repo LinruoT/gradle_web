@@ -10,7 +10,7 @@
 <html>
 <body>
 
-<a href="<c:url value="/bitter/register" />">Register</a>
+<a href="<c:url value="/bitter/register" />">注册</a>
 <form name='f' action='<c:url value="/login" />' method='POST'>
     <table>
         <tr><td>User:</td><td>

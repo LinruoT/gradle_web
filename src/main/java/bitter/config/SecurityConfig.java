@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()
                     .loginPage("/login") //需要登陆的时候会跳转到 /login
+                    .defaultSuccessUrl("/bittles")
                 .and()
                 .logout()
                     .logoutSuccessUrl("/")

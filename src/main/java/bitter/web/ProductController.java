@@ -25,7 +25,7 @@ public class ProductController {
     @RequestMapping(method = RequestMethod.GET)//处理/bittles页面 GET方法：把bittleRepository的列表填充到模型。model是Map （key-value集合）
     public String products(Model model, @RequestParam(value = "max", defaultValue = "" + Long.MAX_VALUE) long max, //含有两个参数max和count，路径是/bittles?count=20
                            @RequestParam(value = "count", defaultValue = "20") int count) {
-
+        //测试redis存储product
         List<Product> productList = new LinkedList<>();
         Product product;
         Product productToSave = new Product();
@@ -34,6 +34,7 @@ public class ProductController {
         productToSave.setSku("6971150669185");
         System.out.println("saving test product: beef");
         redis.opsForValue().set(productToSave.getSku(),productToSave);
+
         System.out.println("getting products");
         product=redis.opsForValue().get("billy");
         productList.add(product);
@@ -44,6 +45,7 @@ public class ProductController {
         product=redis.opsForValue().get(productToSave.getSku());
         productList.add(product);
         model.addAttribute("productList",productList);
+
         return "products";
     }
 
