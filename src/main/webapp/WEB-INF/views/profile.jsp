@@ -13,7 +13,18 @@
     <c:out value="${bitter.email}" />
 
     <c:forEach var="image" items="${imageList}">
-      <a href="/${image}" target="_blank"><img  src="/${image}" /></a>
+      <a href="/${image}" target="_blank"><img src="/${image}" style="
+                              width: 20%;
+                              height: auto;"/>
+      </a>
+    </c:forEach>
+
+    <c:forEach var="picture" items="${pictureList}">
+      <a href="http://vm.linruotian.com:9000/bitter-dev-img/${picture.name}" target="_blank">
+        <img src="http://vm.linruotian.com:9000/bitter-dev-img/${picture.name}" style="
+                              width: 20%;
+                              height: auto;"/>
+      </a>
     </c:forEach>
 
   </body>

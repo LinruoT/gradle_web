@@ -1,10 +1,10 @@
-package bitter.api;
+package bitter.web.api;
 
 import bitter.data.BitterRepository;
 import bitter.data.BittleRepository;
 import bitter.domain.Bittle;
 import bitter.service.BittleService;
-import bitter.web.BittleNotFoundException;
+import bitter.web.error.BittleNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

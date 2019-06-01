@@ -23,7 +23,9 @@
 <security:authorize access="hasRole('ROLE_BITTER')">
     <div class="bittle">
         <h1>Bit it out...</h1>
-        <h3>Hello ${loginId}!</h3>
+        <h3>Hello
+            <a href="/bitter/${loginId}">${loginId}!</a>
+        </h3>
         <form method="POST" name="bittleForm" accept-charset="UTF-8">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <input type="hidden" name="latitude">

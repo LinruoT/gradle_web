@@ -1,11 +1,14 @@
-package bitter.web;
+package bitter.web.bitter;
 
 
+import bitter.data.PictureRepository;
 import bitter.domain.Bitter;
 import bitter.data.BitterRepository;
+import bitter.domain.Picture;
+import bitter.web.error.DuplicateBitterException;
+import bitter.web.error.ImageUploadException;
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,9 +33,11 @@ import java.util.List;
 @RequestMapping("/bitter")
 public class BitterController {
     private BitterRepository bitterRepository;
+    private PictureRepository pictureRepository;
     @Autowired
-    public BitterController(BitterRepository bitterRepository) { //构造器
+    public BitterController(BitterRepository bitterRepository,PictureRepository pictureRepository) { //构造器
         this.bitterRepository=bitterRepository;
+        this.pictureRepository=pictureRepository;
     }
 //    @RequestMapping(value = "/register",method = RequestMethod.GET) //注册页面
 //    public String showRegistration() {
@@ -55,20 +60,30 @@ public class BitterController {
         if(bitterRepository.save(bitter)==null) {
             throw new DuplicateBitterException();
         }
-        String imageName = bitter.getUsername()+"_"+
-                new SimpleDateFormat("yyyyMMddhhmmss").format(new Date())+"_"+
-                profilePicture.getOriginalFilename();
-        String savePath=request.getServletContext().getRealPath("/");
-        System.out.println("savePath: "+savePath);
-        try{
-            saveImage(imageName,profilePicture);
-        } catch (Exception e) {
-            throw new ImageUploadException();
-        }
-          //s3保存上传的图片
-        File file= new File(savePath+"/"+imageName);
-        profilePicture.transferTo(file); //本地保存上传的图片
+        if(profilePicture.getOriginalFilename().contains(".")) {
 
+            String imageName = bitter.getUsername() + "_" +
+                    new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "_" +
+                    profilePicture.getOriginalFilename();
+            String savePath = request.getServletContext().getRealPath("/");
+            System.out.println("savePath: " + savePath);
+
+            //s3保存上传的图片
+            try {
+                if(saveImage(imageName, profilePicture)) {
+                    pictureRepository.save(
+                            new Picture(imageName,profilePicture.getSize(),bitter));
+                }
+            } catch (Exception e) {
+                throw new ImageUploadException();
+            }
+
+
+
+            //本地保存上传的图片
+            File file = new File(savePath + "/" + imageName);
+            profilePicture.transferTo(file);
+        }
         model.addAttribute("username",bitter.getUsername());
         model.addAttribute("bitterId",bitter.getId());
         redirectAttributes.addFlashAttribute(bitter); //重定向时，相比url模版只能传递String，flash可以传递对象
@@ -83,6 +98,48 @@ public class BitterController {
 //        model.addAttribute(bitter);
 //        return "profile";
 //    }
+
+    @RequestMapping(value = "/{username}/addpic",method = RequestMethod.GET) //注册页面
+    public String showAddPicture(Model model,@PathVariable String username) {
+        Bitter bitter = bitterRepository.findByUsername(username);
+        model.addAttribute(bitter);
+        return "addPictureForm";
+    }
+    @RequestMapping(value = "/{username}/addpic",method = RequestMethod.POST)
+    public String addPicture(@PathVariable String username,
+                             @RequestPart("upPicture") MultipartFile upPicture,
+                             Model model,
+                             HttpServletRequest request) throws Exception {
+        Bitter bitter = bitterRepository.findByUsername(username);
+        model.addAttribute(bitter);
+        if(upPicture.getOriginalFilename().contains(".")) {
+
+            String imageName = bitter.getUsername() + "_" +
+                    new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "_" +
+                    upPicture.getOriginalFilename();
+            String savePath = request.getServletContext().getRealPath("/");
+            System.out.println("savePath: " + savePath);
+
+            //s3保存上传的图片
+            try {
+                if(saveImage(imageName, upPicture)) {
+                    pictureRepository.save(
+                            new Picture(imageName,upPicture.getSize(),bitter));
+                }
+            } catch (Exception e) {
+                throw new ImageUploadException();
+            }
+
+            //本地保存上传的图片
+            File file = new File(savePath + "/" + imageName);
+            upPicture.transferTo(file);
+        }
+
+        return "redirect:/bitter/{username}";
+    }
+
+
+    //用户页面
     @RequestMapping(value = "/{username}",method = RequestMethod.GET)
     public String showBitterProfile(@PathVariable String username, Model model, HttpServletRequest request) {
         if (!model.containsAttribute("bitter")) {
@@ -90,8 +147,16 @@ public class BitterController {
             Bitter bitter = bitterRepository.findByUsername(username);
             model.addAttribute(bitter);
 
+
+            List<Picture> pictures = pictureRepository.findByBitter(bitter);
+            System.out.println("pictures in oss: ");
+            for (Picture pic:pictures) {
+                System.out.println(pic);
+            }
+            model.addAttribute("pictureList",pictures);//保存在对象存储的链接
+
             String imgPath = request.getServletContext().getRealPath("/");
-            System.out.println("imgPath: "+imgPath);
+            System.out.println("imgPath: "+imgPath); //保存在web服务器上的路径
             List<String> rawImagesList=new ArrayList<>();
             File file=new File(imgPath);
             if (file.isDirectory()) {
@@ -104,12 +169,13 @@ public class BitterController {
                     }
                 }
             }
-            model.addAttribute("imageList",rawImagesList);
+            model.addAttribute("imageList",rawImagesList);//保存在web服务器上的路径
         }
         return "profile";
     }
 
-    private void saveImage(String imageName,MultipartFile image) throws ImageUploadException {
+    //保存用户图片到对象存储
+    private boolean saveImage(String imageName,MultipartFile image) throws ImageUploadException {
         try {
             MinioClient minioClient = new MinioClient("http://vm.linruotian.com:9000","billys3","billy11111111");
              if(minioClient.bucketExists("bitter-dev-img")) {
@@ -119,6 +185,7 @@ public class BitterController {
              }
              minioClient.putObject("bitter-dev-img",imageName,image.getInputStream(),image.getSize(),image.getContentType());
              System.out.println("saveImage: s3保存成功");
+             return true;
         } catch (Exception e) {
             e.printStackTrace();
             throw new ImageUploadException();

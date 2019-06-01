@@ -5,6 +5,7 @@ import javax.persistence.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.Date;
+import java.util.List;
 
 //推文类，包含消息内容、时间戳、经纬度
 @Entity
@@ -23,6 +24,11 @@ public class Bittle {
     private Double latitude;
     @Column
     private Double longitude;
+
+    @ManyToMany
+    //@JoinTable(name = "T_SHOWCDK_CDK")
+    @OrderBy("id")
+    private List<Picture> pictures; //这条推文的图片
 
     public Bittle() {}
 
@@ -61,6 +67,14 @@ public class Bittle {
 
     public Double getLatitude() {
         return latitude;
+    }
+
+    public List<Picture> getPictures() {
+        return pictures;
+    }
+
+    public void setPictures(List<Picture> pictures) {
+        this.pictures = pictures;
     }
     //重新相等判定
     @Override

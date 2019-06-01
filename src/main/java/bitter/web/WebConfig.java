@@ -8,23 +8,18 @@ import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.*;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletRegistration;
 import java.io.IOException;
 
 @Configuration
 @EnableWebMvc
 @EnableScheduling
-@ComponentScan({"bitter.web","bitter.api"})
+@ComponentScan({"bitter.web", "bitter.web.api"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     //JSP视图解析器（解析逻辑视图名称）：InternalResourceViewResolver，现在改成用apache tiles

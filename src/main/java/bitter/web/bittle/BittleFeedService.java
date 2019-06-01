@@ -1,4 +1,4 @@
-package bitter.web;
+package bitter.web.bittle;
 
 import bitter.domain.Bittle;
 

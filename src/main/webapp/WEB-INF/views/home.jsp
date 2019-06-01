@@ -8,7 +8,10 @@
   </security:authorize>
   <security:authorize access="isAuthenticated()">
     <security:authentication property="principal.username" var="loginId"/>
-    Hello ${loginId}!  <a href="/logout">退出</a>
+    <h3>Hello
+      <a href="/bitter/${loginId}">${loginId}!</a>
+    </h3>
+    <a href="/logout">退出</a>
   </security:authorize>
     <h1>Welcome to Bittler高端黑</h1>
     <h2>HomeController's Time: ${time}</h2>

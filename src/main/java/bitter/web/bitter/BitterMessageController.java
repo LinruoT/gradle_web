@@ -1,10 +1,12 @@
-package bitter.web;
+package bitter.web.bitter;
 
 import bitter.data.BitterRepository;
 import bitter.data.BittleRepository;
 import bitter.domain.Bitter;
 import bitter.domain.Bittle;
 import bitter.domain.Notification;
+import bitter.web.bittle.BittleFeedService;
+import bitter.web.bittle.BittleForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SendToUser;

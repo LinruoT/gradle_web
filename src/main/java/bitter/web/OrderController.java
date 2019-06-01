@@ -16,6 +16,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+
+/**
+ * todo: 由 mongoDB 保存 order
+ */
 @Controller
 @RequestMapping("/orders")
 public class OrderController {

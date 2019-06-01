@@ -1,4 +1,4 @@
-package bitter.web;
+package bitter.web.bittle;
 
 import bitter.alerts.AlertService;
 import bitter.data.BitterRepository;
@@ -7,6 +7,8 @@ import bitter.domain.Bittle;
 import bitter.data.BittleRepository;
 
 import bitter.service.BittleService;
+import bitter.web.error.DuplicateBittleException;
+import bitter.web.error.BittleNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

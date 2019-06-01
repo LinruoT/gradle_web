@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
 import bitter.domain.Bittle;
 import bitter.data.BittleRepository;
+import bitter.web.bittle.BittleController;
 import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.view.InternalResourceView;

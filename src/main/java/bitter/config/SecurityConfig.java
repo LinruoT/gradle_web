@@ -43,8 +43,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //开发环境手动关闭csrf
-//        http .csrf().disable();
         http
                 .formLogin()
                     .loginPage("/login") //需要登陆的时候会跳转到 /login
