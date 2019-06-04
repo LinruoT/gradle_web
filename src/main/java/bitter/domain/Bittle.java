@@ -25,8 +25,8 @@ public class Bittle {
     @Column
     private Double longitude;
 
-    @ManyToMany
-    //@JoinTable(name = "T_SHOWCDK_CDK")
+    @ManyToMany(fetch = FetchType.EAGER) //默认懒加载会导致session过期
+    //@JoinTable(name = "T_Bittle_Picture")
     @OrderBy("id")
     private List<Picture> pictures; //这条推文的图片
 

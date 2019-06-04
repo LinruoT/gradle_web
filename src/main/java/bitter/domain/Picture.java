@@ -8,8 +8,6 @@ import java.util.Date;
 //图片类
 @Entity
 public class Picture {
-
-
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private  Long id;
@@ -31,31 +29,24 @@ public class Picture {
     public Long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public Long getSize() {
         return size;
     }
-
     public void setSize(Long size) {
         this.size = size;
     }
-
     public Bitter getBitter() {
         return bitter;
     }
-
     public void setBitter(Bitter bitter) {
         this.bitter = bitter;
     }
-
     public Date getTime() {
         return time;
     }

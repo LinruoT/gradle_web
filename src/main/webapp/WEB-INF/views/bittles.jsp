@@ -26,11 +26,13 @@
         <h3>Hello
             <a href="/bitter/${loginId}">${loginId}!</a>
         </h3>
-        <form method="POST" name="bittleForm" accept-charset="UTF-8">
+        <form method="POST" name="bittleForm" enctype="multipart/form-data" accept-charset="UTF-8">
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <input type="hidden" name="latitude">
             <input type="hidden" name="longitude">
             <textarea name="message" cols="80" rows="5"></textarea><br/>
+            <p>选择文件:<input type="file" name="files" accept="image/jpeg,image/png,image/gif"></p>
+            <p>选择文件:<input type="file" name="files" accept="image/jpeg,image/png,image/gif"></p>
             <input type="submit" value="Add" />
         </form>
     </div>
@@ -52,6 +54,15 @@
                     <span class="bitterName"><c:out value="${bittle.bitter.firstName} ${bittle.bitter.lastName}" /></span>
                     <span class="bittleTime"><c:out value="${bittle.time}" /></span>
                     <span class="bittleLocation">(<c:out value="${bittle.latitude}" />, <c:out value="${bittle.longitude}" />)</span>
+                </div>
+                <div>
+                    <c:forEach var="picture" items="${bittle.pictures}">
+                        <a href="http://vm.linruotian.com:9000/bitter-dev-img/${picture.name}" target="_blank">
+                            <img src="http://vm.linruotian.com:9000/bitter-dev-img/${picture.name}" style="
+                              width: 20%;
+                              height: auto;"/>
+                        </a>
+                    </c:forEach>
                 </div>
             </li>
         </c:forEach>
