@@ -16,5 +16,8 @@
       <a href="/${image}" target="_blank"><img  src="/${image}" /></a>
     </c:forEach>
 
+    <c:forEach var="s3Image" items="${s3ImageList}">
+      <a href="${s3Image}" target="_blank"><img  src="${s3Image}" /></a>
+    </c:forEach>
   </body>
 </html>

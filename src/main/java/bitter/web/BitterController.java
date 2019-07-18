@@ -93,6 +93,7 @@ public class BitterController {
             String imgPath = request.getServletContext().getRealPath("/");
             System.out.println("imgPath: "+imgPath);
             List<String> rawImagesList=new ArrayList<>();
+            List<String> s3ImagesList=new ArrayList<>();
             File file=new File(imgPath);
             if (file.isDirectory()) {
                 String[] filelist = file.list();
@@ -101,9 +102,11 @@ public class BitterController {
                     if (!readfile.isDirectory()) {
                         System.out.println(readfile.getName());
                         rawImagesList.add(readfile.getName());
+                        s3ImagesList.add("http://vm.linruotian.com:9000/bitter-dev-img/" + filelist[i]);
                     }
                 }
             }
+            model.addAttribute("s3ImageList",s3ImagesList);
             model.addAttribute("imageList",rawImagesList);
         }
         return "profile";
