@@ -2,22 +2,29 @@ package bitter.web.bittle;
 
 import bitter.alerts.AlertService;
 import bitter.data.BitterRepository;
+import bitter.data.PictureRepository;
 import bitter.domain.Bitter;
 import bitter.domain.Bittle;
 import bitter.data.BittleRepository;
 
+import bitter.domain.Picture;
 import bitter.service.BittleService;
 import bitter.web.error.DuplicateBittleException;
 import bitter.web.error.BittleNotFoundException;
+import bitter.web.error.ImageUploadException;
+import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,15 +34,18 @@ import java.util.List;
 public class BittleController {
     private BittleRepository bittleRepository;
     private BitterRepository bitterRepository;
+    private PictureRepository pictureRepository;
     private BittleService bittleService;
     private AlertService alertService;
     private BittleFeedService bittleFeedService;
 
+
     @Autowired//构造器传入bittles数据，bittleRepository的实现是JdbcBittleRepository
-    public BittleController(BittleRepository bittleRepository, BitterRepository bitterRepository,
+    public BittleController(BittleRepository bittleRepository, BitterRepository bitterRepository,PictureRepository pictureRepository,
                             BittleService bittleService, AlertService alertService,BittleFeedService bittleFeedService) {
         this.bittleRepository=bittleRepository;
         this.bitterRepository=bitterRepository;
+        this.pictureRepository=pictureRepository;
         this.bittleService=bittleService;
         this.alertService=alertService;
         this.bittleFeedService=bittleFeedService;
@@ -70,13 +80,40 @@ public class BittleController {
         model.addAttribute("bittle",bittle);
         return "bittle";
     }
+
     @RequestMapping(method = RequestMethod.POST) //接受表单，新建一个bittle
-    public String saveBittle(@Valid BittleForm bittleForm, Errors errors, Principal principal) {
+    public String saveBittle(@Valid BittleForm bittleForm, @RequestPart("files") MultipartFile[] files, Errors errors, Principal principal) {
         if(errors.hasErrors()) { return "bittles"; }
         Bitter bitter=bitterRepository.findByUsername(principal.getName());
         Bittle bittle=new Bittle(null,bitter,bittleForm.getMessage(),new Date(),bittleForm.getLongitude(),bittleForm.getLatitude());
         bittleService.addBittle(bittle); //这个方法是被spring security保护的
         alertService.sendBittleAlert(bittle);
+
+        //保存图片
+        List<Picture> pictures = new ArrayList<>();
+        if(files!=null&&files.length>0) {
+            //循环获取file数组中得文件
+            for (MultipartFile file:files) {
+                if (file.getOriginalFilename().contains(".")) {
+                    String imageName = bitter.getUsername() + "_" +
+                            new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "_" +
+                            file.getOriginalFilename();
+                    Picture picture = new Picture(imageName,file.getSize(),bitter);
+                    pictures.add(picture);
+                    System.out.println("成功获取图片："+picture);
+                    //s3保存上传的图片
+                    try {
+                        if(saveImage(imageName, file)) {
+                            pictureRepository.save(picture);
+                        }
+                    } catch (Exception e) {
+                        throw new ImageUploadException();
+                    }
+                }
+            }
+            bittle.setPictures(pictures);
+        }
+        //保存bittle
         if(bittleRepository.save(bittle).getId()<10) {
             throw new DuplicateBittleException();
         }
@@ -123,4 +160,22 @@ public class BittleController {
 //        return "error/duplicate";
 //
 //    }
+    //保存用户图片到对象存储
+    private boolean saveImage(String imageName,MultipartFile image) throws ImageUploadException {
+        try {
+            MinioClient minioClient = new MinioClient("http://vm.linruotian.com:9000","billys3","billy11111111");
+            if(minioClient.bucketExists("bitter-dev-img")) {
+                System.out.println("bucket already exists.");
+            } else {
+                minioClient.makeBucket("bitter-dev-img");
+            }
+            minioClient.putObject("bitter-dev-img",imageName,image.getInputStream(),image.getSize(),image.getContentType());
+            System.out.println("saveImage: s3保存成功");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ImageUploadException();
+        }
+
+    }
 }
