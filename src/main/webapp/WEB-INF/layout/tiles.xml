@@ -57,4 +57,8 @@
         <put-attribute name="body" value="/WEB-INF/views/homeStomp.jsp" />
     </definition>
 
+    <definition name="result" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/result.jsp" />
+    </definition>
+
 </tiles-definitions>

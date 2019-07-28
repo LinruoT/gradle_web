@@ -54,6 +54,9 @@
                     <span class="bitterName"><c:out value="${bittle.bitter.firstName} ${bittle.bitter.lastName}" /></span>
                     <span class="bittleTime"><c:out value="${bittle.time}" /></span>
                     <span class="bittleLocation">(<c:out value="${bittle.latitude}" />, <c:out value="${bittle.longitude}" />)</span>
+                    <span class="bittleDelete">
+                        <a href="/bittles/forcedel/<c:out value="${bittle.id}" />">永久删除</a>
+                    </span>
                 </div>
                 <div>
                     <c:forEach var="picture" items="${bittle.pictures}">
@@ -64,6 +67,7 @@
                         </a>
                     </c:forEach>
                 </div>
+                <br/>
             </li>
         </c:forEach>
     </ul>

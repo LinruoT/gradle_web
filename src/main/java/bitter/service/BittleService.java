@@ -6,4 +6,6 @@ import org.springframework.stereotype.Component;
 
 public interface BittleService {
     Bittle addBittle(Bittle bittle);
+
+    boolean forceDeleteBittle(Bittle bittle,String bitterName);
 }

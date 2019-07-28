@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * TODO:stomp消息，当保存bittle会被调用，判断是否@用户
+ * stomp消息，当保存bittle会被调用，判断是否@用户
  *
  * @author Billy Lin
  */
