@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--<mapper namespace="接口类全类名"> id=方法名-->
+<mapper namespace="bitter.mybatis.EmpMapperDynamicSql">
+<!--    if choose(when,otherwise) trim(where,set) foreach bind sql include-->
+<!-- test=从参数进行判断，遇见特殊符号应该写转义字符-->
+    <select id="getEmpsByConditionIf" resultType="Employee" >
+    <bind name="_lastName" value="'%'+lastName+'%'" />
+    select * from employee
+    where 1=1
+    <if test="id!=null">and id=#{id}</if>
+    <if test="lastName!=null and lastName!=&quot;&quot;"> and last_name like #{_lastName}</if>
+    <if test="email!=null and email.trim()!=&quot;&quot;">and email=#{email}</if>
+    <if test="gender==&quot;male&quot; or gender==&quot;female&quot;"> and gender=#{gender}</if>
+    </select>
+<!-- trim，解决 多余的and 语法错误-->
+    <select id="getEmpsByConditionTrim" resultType="Employee" >
+        select * from employee
+        <trim prefix="where" suffixOverrides="and">
+            <if test="id!=null">id=#{id} and</if>
+            <if test="lastName!=null and lastName!=&quot;&quot;"> last_name like #{lastName} and</if>
+            <if test="email!=null and email.trim()!=&quot;&quot;">email=#{email} and</if>
+            <if test="gender==&quot;male&quot; or gender==&quot;female&quot;">gender=#{gender}</if>
+        </trim>
+
+    </select>
+<!--choose-->
+    <select id="getEmpsByConditionChoose" resultType="Employee">
+        select * from employee
+        <where>
+            <choose>
+                <when test="id!=null">id=#{id}</when>
+                <when test="lastName!=null">last_name like #{lastName}</when>
+                <when test="email!=null">email=#{email}</when>
+                <otherwise>gender="male"</otherwise>
+            </choose>
+        </where>
+    </select>
+<!--    where-查询条件，set-更新(不用担心多的逗号,也用trim)-->
+    <update id="updateEmp">
+        update employee
+        <set>
+            <if test="lastName!=null and lastName!=&quot;&quot;"> last_name=#{lastName},</if>
+            <if test="email!=null and email.trim()!=&quot;&quot;">email=#{email},</if>
+            <if test="gender==&quot;male&quot; or gender==&quot;female&quot;">gender=#{gender}</if>
+        </set>
+        <where>id=#{id}</where>
+    </update>
+<!--    foreach, item=把list赋值给变量 separator=分隔符 open=拼接开头的-->
+    <select id="getEmpsByConditionForeach" resultType="Employee">
+        select * from employee where id in
+        <foreach collection="ids" item="item_id" separator="," open="(" close=")">
+            #{item_id}
+        </foreach>
+    </select>
+
+<!--    foreach, 批量保存，拼接超长sql：values (),(),(),()-->
+    <insert id="addEmps">
+        insert into employee(<include refid="insertCol" />)
+        values
+        <foreach collection="emps" item="emp" separator="," >
+            (#{emp.firstName},#{emp.lastName},#{emp.age},#{emp.gender},#{emp.email},#{emp.dept.id})
+        </foreach>
+    </insert>
+
+<!--    真批量保存，不是拼接超长sql，需要建立session支持批量操作-->
+
+
+<!--  sql, 可重用sql提取出来，里面可以用if
+      include 引用，可以用property新增变量，给<sql>中${xxx}使用-->
+    <sql id="insertCol">
+        first_name, last_name, age, gender, email, d_id
+    </sql>
+
+</mapper>

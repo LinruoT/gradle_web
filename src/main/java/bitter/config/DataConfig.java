@@ -1,14 +1,23 @@
 package bitter.config;
 
+import bitter.data.BitterRepository;
+import bitter.domain.Bitter;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.hibernate.SessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jms.connection.JmsTransactionManager;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
@@ -32,6 +41,14 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+
+
+
+//mybatis自动扫描mapper注册
+@MapperScan(value = "bitter.data")
+
+
+
 @EnableJpaRepositories(basePackages="bitter.data")//spring data查找扩展自JpaRepository的接口，自动生成实现
 public class DataConfig implements TransactionManagementConfigurer{
     @Resource(name="transactionManager")
@@ -139,6 +156,27 @@ public class DataConfig implements TransactionManagementConfigurer{
         transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
     }
+
+
+
+//learn-mybatis
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+        factoryBean.setDataSource(dataSource);
+        factoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
+        return factoryBean.getObject();
+    }
+    @Bean
+    public BitterRepository bitterRepository(SqlSessionFactory sqlSessionFactory) {
+        SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
+        return sqlSessionTemplate.getMapper(BitterRepository.class);
+    }
+
+
+
+
+
     @Override
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return txManager2;

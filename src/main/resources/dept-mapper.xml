@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--<mapper namespace="接口类全类名"> id=方法名-->
+<mapper namespace="bitter.mybatis.DeptMapper">
+    <select id="selectDeptById" resultType="Department" >
+        select id, name from department where id=#{id}
+    </select>
+
+    <insert id="insertDept" parameterType="Department"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into department(name) values (#{name})
+    </insert>
+
+</mapper>
