@@ -45,7 +45,7 @@ import java.util.Properties;
 
 
 //mybatis自动扫描mapper注册
-@MapperScan(value = "bitter.data")
+@MapperScan(value = "mbg.dao")
 
 
 
