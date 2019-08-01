@@ -51,6 +51,9 @@
             <li id="bittle_<c:out value="bittle.id"/>">
                 <div class="bittleMessage"><c:out value="${bittle.message}" /></div>
                 <div>
+                    <span class="bittleEnter">
+                        <a href="/bittles/<c:out value="${bittle.id}" />">${bittle.id} </a>
+                    </span>
                     <span class="bitterName"><c:out value="${bittle.bitter.firstName} ${bittle.bitter.lastName}" /></span>
                     <span class="bittleTime"><c:out value="${bittle.time}" /></span>
                     <span class="bittleLocation">(<c:out value="${bittle.latitude}" />, <c:out value="${bittle.longitude}" />)</span>

@@ -20,7 +20,20 @@
                 <span class="bittleId"><c:out value="${bittle.id}" /></span>
                 <span class="bittleTime"><c:out value="${bittle.time}" /></span>
                 <span class="bittleLocation">(<c:out value="${bittle.latitude}" />, <c:out value="${bittle.longitude}" />)</span>
+                <span class="bittleDelete">
+                        <a href="/bittles/forcedel/<c:out value="${bittle.id}" />">永久删除</a>
+                    </span>
             </div>
+            <div>
+                <c:forEach var="picture" items="${bittle.pictures}">
+                    <a href="http://vm.linruotian.com:9000/bitter-dev-img/${picture.name}" target="_blank">
+                        <img src="http://vm.linruotian.com:9000/bitter-dev-img/${picture.name}" style="
+                              width: 20%;
+                              height: auto;"/>
+                    </a>
+                </c:forEach>
+            </div>
+            <br/>
         </li>
     </ul>
 </div>

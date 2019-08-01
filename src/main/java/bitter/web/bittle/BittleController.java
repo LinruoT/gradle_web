@@ -79,7 +79,7 @@ public class BittleController {
     }
 
     /**
-     *
+     * 单个bittle页面
      * 路径是/bittles/123
      *
      * @param bittleId
@@ -159,7 +159,7 @@ public class BittleController {
 
         if ((bittle == null) || (principal == null)) {
             System.out.println("未登录 或 bittle不存在" + bittleId);
-            model.addAttribute("result", false);
+            model.addAttribute("result", false+"未登录 或 bittle不存在" + bittleId);
 
             return "result";
         }
@@ -197,43 +197,12 @@ public class BittleController {
                                    new Date(),
                                    bittleForm.getLongitude(),
                                    bittleForm.getLatitude());
-
-        bittleService.addBittle(bittle);    // 这个方法是被spring security保护的
-        alertService.sendBittleAlert(bittle);
-
-        // 保存图片
-        List<Picture> pictures = new ArrayList<>();
-
         if ((files != null) && (files.length > 0)) {
-
-            // 循环获取file数组中得文件
-            for (MultipartFile file : files) {
-                if (file.getOriginalFilename().contains(".")) {
-                    String imageName = bitter.getUsername() + "_"
-                                       + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "_"
-                                       + file.getOriginalFilename();
-                    Picture picture = new Picture(imageName, file.getSize(), bitter);
-
-                    pictures.add(picture);
-                    System.out.println("成功获取图片：" + picture);
-
-                    // s3保存上传的图片
-                    try {
-                        if (saveImage(imageName, file)) {
-                            pictureRepository.save(picture);
-                        }
-                    } catch (Exception e) {
-                        throw new ImageUploadException();
-                    }
-                }
-            }
-            bittle.setPictures(pictures);
+            bittleService.addBittle(bittle, files);// 这个方法是被spring security保护的
+        } else {
+            bittleService.addBittle(bittle);
         }
-
-        // 保存bittle
-        if (bittleRepository.save(bittle).getId() < 10) {
-            throw new DuplicateBittleException();
-        }
+        alertService.sendBittleAlert(bittle);
         bittleFeedService.broadcastBittle(bittle);
 
         return "redirect:/bittles";
@@ -245,31 +214,7 @@ public class BittleController {
 //      return "error/duplicate";
 //
 //  }
-    // 保存用户图片到对象存储
-    private boolean saveImage(String imageName, MultipartFile image) throws ImageUploadException {
-        try {
-            MinioClient minioClient = new MinioClient("http://vm.linruotian.com:9000", "billys3", "billy11111111");
 
-            if (minioClient.bucketExists("bitter-dev-img")) {
-                System.out.println("bucket already exists.");
-            } else {
-                minioClient.makeBucket("bitter-dev-img");
-            }
-            minioClient.putObject("bitter-dev-img",
-                                  imageName,
-                                  image.getInputStream(),
-                                  image.getSize(),
-                                  image.getContentType());
-            System.out.println("saveImage: s3保存成功");
-
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            throw new ImageUploadException();
-        }
-
-    }
 
     /**
      *

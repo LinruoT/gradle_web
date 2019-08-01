@@ -3,6 +3,7 @@ package bitter.service;
 import org.springframework.stereotype.Component;
 
 import bitter.domain.Bittle;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Interface description
@@ -22,6 +23,7 @@ public interface BittleService {
      * @return
      */
     Bittle addBittle(Bittle bittle);
+    Bittle addBittle(Bittle bittle, MultipartFile[] files);
 
     /**
      * 删除bittle
@@ -33,6 +35,7 @@ public interface BittleService {
      * @return
      */
     boolean forceDeleteBittle(Bittle bittle, String bitterName);
+
 }
 
 
