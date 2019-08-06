@@ -25,5 +25,6 @@
     <a href="<c:url value="/homestomp" />">test STOMP webSocket</a>
     <a href="<c:url value="/bittles/testapi/130" />">BittleID=130(test api)</a>
     <a href="<c:url value="/test/mybatis" />">test myBatis</a>
+    <a href="<c:url value="/test/mq" />">test MQ</a>
   </body>
 
