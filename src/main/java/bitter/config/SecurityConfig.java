@@ -52,7 +52,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/")
                 .and()
                 .rememberMe()
-                    .tokenRepository(new InMemoryTokenRepositoryImpl())
+                //     * Specifies the {@link PersistentTokenRepository} to use. The default is to
+                //     * use {@link TokenBasedRememberMeServices} instead.
+                    //.tokenRepository(new InMemoryTokenRepositoryImpl())
                     .tokenValiditySeconds(2419200)
                     .key("bitterKey")
                 .and()

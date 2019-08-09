@@ -28,8 +28,8 @@ public class RabbitMQConfig {
         return factory;
     }
     @Bean
-    public RabbitAdmin rabbitAdmin(ConnectionFactory connectionFactory) {
-        RabbitAdmin admin = new RabbitAdmin(connectionFactory);
+    public RabbitAdmin rabbitAdmin() {
+        RabbitAdmin admin = new RabbitAdmin(connectionFactory());
         admin.setAutoStartup(true);
         admin.declareExchange(new DirectExchange("hello.exchange"));
         admin.declareQueue(new Queue("hello.queue"));
@@ -41,17 +41,17 @@ public class RabbitMQConfig {
         return admin;
     }
     @Bean
-    public AmqpTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+    public AmqpTemplate rabbitTemplate() {
         System.out.println("rabbitTemplate");
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory());
         return rabbitTemplate;
     }
 
 
     @Bean
-    public SimpleMessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory, HelloHandler helloHandler){
+    public SimpleMessageListenerContainer messageListenerContainer(HelloHandler helloHandler){
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);
+        container.setConnectionFactory(connectionFactory());
         //队列可以是多个，参数是String的数组
         container.setQueueNames("hello.queue");
         MessageListenerAdapter adapter = new MessageListenerAdapter(helloHandler);

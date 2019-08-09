@@ -9,7 +9,10 @@
   <security:authorize access="isAuthenticated()">
     <security:authentication property="principal.username" var="loginId"/>
     <h3>Hello
-      <a href="/bitter/${loginId}">${loginId}!</a>
+      <a href="/bitter/${loginId}"><img src="http://vm.linruotian.com:9000/bitter-dev-img/${bitter.icon.name}" style="
+                              width: 50px;
+                              height: auto;"/></a>
+      <a href="/bitter/${loginId}">${loginId}</a>
     </h3>
     <a href="/logout">退出</a>
   </security:authorize>
