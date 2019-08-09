@@ -16,14 +16,20 @@
 <security:authorize access="isAuthenticated()">
     <security:authentication property="principal.username" var="loginId"/>
     已经登陆了！！！  <a href="/logout">退出</a>
-</security:authorize>
+
 <h1>add Picture </h1>
 
 <sf:form method="post" enctype="multipart/form-data" accept-charset="utf-8">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-    <label> Profile Picture:</label>
-    <input type="file" name="upPicture" accept="image/jpeg,image/png,image/gif"><br><br>
+    <label> 上传图片:</label>
+    <input type="file" name="upPicture" accept="image/jpeg,image/png,image/gif"><br>
+    <label> 是否作为头像: </label>
+    <input type="checkbox" name="useAsIcon">
+    <br>
+    <br>
     <input type="submit" value="Add" />
 </sf:form>
+
+</security:authorize>
 </body>
 </html>

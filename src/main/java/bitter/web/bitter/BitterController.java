@@ -57,8 +57,10 @@ public class BitterController {
                                       HttpServletRequest request) throws Exception {
         if(errors.hasErrors()) { return "registerForm"; }//有错误 则注册页面
         bitter.setPassword(new StandardPasswordEncoder("gaoduanhei").encode(bitter.getPassword()));
-        if(bitterRepository.save(bitter)==null) {
+        if(bitterRepository.findByUsername(bitter.getUsername())!=null) {
             throw new DuplicateBitterException();
+        } else {
+            bitter=bitterRepository.save(bitter);
         }
         if(profilePicture.getOriginalFilename().contains(".")) {
 
@@ -71,8 +73,10 @@ public class BitterController {
             //s3保存上传的图片
             try {
                 if(saveImage(imageName, profilePicture)) {
-                    pictureRepository.save(
+                    Picture icon = pictureRepository.save(
                             new Picture(imageName,profilePicture.getSize(),bitter));
+                    bitter.setIcon(icon);
+                    bitterRepository.save(bitter);
                 }
             } catch (Exception e) {
                 throw new ImageUploadException();
@@ -80,9 +84,9 @@ public class BitterController {
 
 
 
-            //本地保存上传的图片
-            File file = new File(savePath + "/" + imageName);
-            profilePicture.transferTo(file);
+//            //本地保存上传的图片
+//            File file = new File(savePath + "/" + imageName);
+//            profilePicture.transferTo(file);
         }
         model.addAttribute("username",bitter.getUsername());
         model.addAttribute("bitterId",bitter.getId());
@@ -107,13 +111,14 @@ public class BitterController {
     }
     @RequestMapping(value = "/{username}/addpic",method = RequestMethod.POST)
     public String addPicture(@PathVariable String username,
-                             @RequestPart("upPicture") MultipartFile upPicture,
+                             @RequestPart("upPicture") MultipartFile upPicture,boolean useAsIcon,
                              Model model,
                              HttpServletRequest request) throws Exception {
         Bitter bitter = bitterRepository.findByUsername(username);
         model.addAttribute(bitter);
-        if(upPicture.getOriginalFilename().contains(".")) {
 
+        if(upPicture.getOriginalFilename().contains(".")) {
+            Picture icon;
             String imageName = bitter.getUsername() + "_" +
                     new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()) + "_" +
                     upPicture.getOriginalFilename();
@@ -123,16 +128,20 @@ public class BitterController {
             //s3保存上传的图片
             try {
                 if(saveImage(imageName, upPicture)) {
-                    pictureRepository.save(
+                    icon = pictureRepository.save(
                             new Picture(imageName,upPicture.getSize(),bitter));
+                    if(useAsIcon) {
+                        bitter.setIcon(icon);
+                        bitterRepository.save(bitter);
+                    }
                 }
             } catch (Exception e) {
                 throw new ImageUploadException();
             }
 
-            //本地保存上传的图片
-            File file = new File(savePath + "/" + imageName);
-            upPicture.transferTo(file);
+//            //本地保存上传的图片
+//            File file = new File(savePath + "/" + imageName);
+//            upPicture.transferTo(file);
         }
 
         return "redirect:/bitter/{username}";
@@ -155,21 +164,21 @@ public class BitterController {
             }
             model.addAttribute("pictureList",pictures);//保存在对象存储的链接
 
-            String imgPath = request.getServletContext().getRealPath("/");
-            System.out.println("imgPath: "+imgPath); //保存在web服务器上的路径
-            List<String> rawImagesList=new ArrayList<>();
-            File file=new File(imgPath);
-            if (file.isDirectory()) {
-                String[] filelist = file.list();
-                for (int i = 0; i < filelist.length; i++) {
-                    File readfile = new File(imgPath + filelist[i]);
-                    if (!readfile.isDirectory()) {
-                        System.out.println(readfile.getName());
-                        rawImagesList.add(readfile.getName());
-                    }
-                }
-            }
-            model.addAttribute("imageList",rawImagesList);//保存在web服务器上的路径
+//            String imgPath = request.getServletContext().getRealPath("/");
+//            System.out.println("imgPath: "+imgPath); //保存在web服务器上的路径
+//            List<String> rawImagesList=new ArrayList<>();
+//            File file=new File(imgPath);
+//            if (file.isDirectory()) {
+//                String[] filelist = file.list();
+//                for (int i = 0; i < filelist.length; i++) {
+//                    File readfile = new File(imgPath + filelist[i]);
+//                    if (!readfile.isDirectory()) {
+//                        System.out.println(readfile.getName());
+//                        rawImagesList.add(readfile.getName());
+//                    }
+//                }
+//            }
+//            model.addAttribute("imageList",rawImagesList);//保存在web服务器上的路径
         }
         return "profile";
     }

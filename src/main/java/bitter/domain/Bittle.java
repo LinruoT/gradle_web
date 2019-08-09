@@ -76,7 +76,7 @@ public class Bittle {
     public void setPictures(List<Picture> pictures) {
         this.pictures = pictures;
     }
-    //重新相等判定
+    //重新相等判定，使用了apache commons
     @Override
     public boolean equals(Object that) {
         return EqualsBuilder.reflectionEquals(this,that,"id","time");
