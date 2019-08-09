@@ -8,10 +8,13 @@
   </head>
   <body>
     <h1>Your Profile</h1>
-    username:<c:out value="${bitter.username}" /><br/>
+    username:<c:out value="" /><br/>
     <c:out value="${bitter.firstName}" /> <c:out value="${bitter.lastName}" /><br/>
     <c:out value="${bitter.email}" />
 
+    <div>
+      <a href="/bitter/${bitter.username}/addpic" >上传图片</a>
+    </div>
     <c:forEach var="image" items="${imageList}">
       <a href="/${image}" target="_blank"><img src="/${image}" style="
                               width: 20%;
