@@ -15,6 +15,10 @@
     <div>
       <a href="/bitter/${bitter.username}/addpic" >上传图片</a>
     </div>
+    <div>
+      <a href="/bitter/${bitter.username}/changepwd" >修改密码</a>
+    </div>
+
     <c:forEach var="image" items="${imageList}">
       <a href="/${image}" target="_blank"><img src="/${image}" style="
                               width: 20%;
