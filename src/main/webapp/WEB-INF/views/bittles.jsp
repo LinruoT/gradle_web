@@ -60,6 +60,9 @@
                     <span class="bittleDelete">
                         <a href="/bittles/forcedel/<c:out value="${bittle.id}" />">永久删除</a>
                     </span>
+                    <span class="bittleComment">
+                            评论数量：${bittle.comments.size()}
+                    </span>
                 </div>
                 <div>
                     <c:forEach var="picture" items="${bittle.pictures}">

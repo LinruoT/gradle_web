@@ -1,6 +1,8 @@
 package bitter.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -21,6 +23,7 @@ public class Picture {
 
     @ManyToOne
     @JoinColumn(name="bitter")
+    @JsonIgnore
     private Bitter bitter;
 
     @Column(name = "created_at")

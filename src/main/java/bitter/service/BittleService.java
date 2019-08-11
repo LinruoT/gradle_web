@@ -1,5 +1,6 @@
 package bitter.service;
 
+import bitter.domain.Comment;
 import org.springframework.stereotype.Component;
 
 import bitter.domain.Bittle;
@@ -36,6 +37,7 @@ public interface BittleService {
      */
     boolean forceDeleteBittle(Bittle bittle, String bitterName);
 
+    boolean addComment(Bittle bittle, Comment comment);
 }
 
 

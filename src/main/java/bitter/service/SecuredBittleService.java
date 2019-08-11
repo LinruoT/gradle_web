@@ -1,6 +1,8 @@
 package bitter.service;
 
+import bitter.data.CommentRepository;
 import bitter.data.PictureRepository;
+import bitter.domain.Comment;
 import bitter.domain.Picture;
 import bitter.web.error.ImageUploadException;
 import io.minio.MinioClient;
@@ -29,6 +31,7 @@ import java.util.List;
 public class SecuredBittleService implements BittleService {
     private BittleRepository bittleRepository;
     private PictureRepository pictureRepository;
+    private CommentRepository commentRepository;
 
     /**
      * Constructs ...
@@ -37,9 +40,10 @@ public class SecuredBittleService implements BittleService {
      * @param bittleRepository
      */
     @Autowired
-    public SecuredBittleService(BittleRepository bittleRepository,PictureRepository pictureRepository) {
+    public SecuredBittleService(BittleRepository bittleRepository,PictureRepository pictureRepository,CommentRepository commentRepository) {
         this.bittleRepository = bittleRepository;
         this.pictureRepository = pictureRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -101,6 +105,27 @@ public class SecuredBittleService implements BittleService {
             return false;
         }
 
+    }
+
+    @Override
+    @Secured({"ROLE_BITTER", "ROLE_ADMIN"})
+    public boolean addComment(Bittle bittle, Comment comment) {
+        List<Comment> comments;
+        try {
+            comment = commentRepository.save(comment);
+            System.out.println("保存comment成功"+comment.getId());
+            if(comment.getId()==null)
+                return false;
+            comments = bittle.getComments();
+            comments.add(comment);
+            bittle.setComments(comments);
+            bittle=bittleRepository.save(bittle);
+            System.out.println("addComment: 成功 bittleId="+bittle.getBitter()+" "+comment);
+            return true;
+        } catch (Exception e) {
+            System.out.println("addComment: 失败，异常：" + e.getMessage());
+            return false;
+        }
     }
 
     // 保存用户图片到对象存储

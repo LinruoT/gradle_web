@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +28,17 @@ public class Bittle {
     @Column
     private Double longitude;
 
-    @ManyToMany(fetch = FetchType.EAGER) //默认懒加载会导致session过期
+    @ManyToMany() //默认懒加载会导致session过期
     //@JoinTable(name = "T_Bittle_Picture")
     @OrderBy("id")
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Picture> pictures; //这条推文的图片
+
+    @OneToMany() //默认懒加载会导致session过期
+    @OrderBy("id")
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Comment> comments; //这条推文的评论
+
 
     public Bittle() {}
 
@@ -76,6 +86,15 @@ public class Bittle {
     public void setPictures(List<Picture> pictures) {
         this.pictures = pictures;
     }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     //重新相等判定，使用了apache commons
     @Override
     public boolean equals(Object that) {

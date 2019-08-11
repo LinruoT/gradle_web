@@ -10,6 +10,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import bitter.data.CommentRepository;
+import bitter.domain.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -171,7 +173,27 @@ public class BittleController {
 
         return "result";
     }
+    @RequestMapping(
+            value = "/addComment/{bittleId}",
+            method = RequestMethod.GET
+    )
+    public String addComment(@PathVariable Long bittleId, Model model, Principal principal,
+                             @RequestParam(value = "comment",defaultValue = "")String comment) {
+        Bittle bittle = bittleRepository.findOne(bittleId); //主帖
 
+        if ((bittle == null) || (principal == null || comment.equals(""))) {
+            System.out.println("未登录 或 消息空 或 bittle不存在" + bittleId);
+            model.addAttribute("result", false+"未登录 或 bittle不存在" + bittleId);
+            return "result";
+        }
+        Comment commentToAdd = new Comment(comment,bitterRepository.findByUsername(principal.getName()),bittle);
+        System.out.println("添加评论：" + commentToAdd);
+        //第一步：save comment 第二步：save bittle
+        boolean result = bittleService.addComment(bittle,commentToAdd);    // 这个方法是被spring security保护的
+
+        model.addAttribute("result", result);
+        return "result";
+    }
     /**
      * 接受表单，新建一个bittle
      *
