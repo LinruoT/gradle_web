@@ -27,4 +27,10 @@ public class BittleRepositoryImpl implements BittleRepositoryCustom{
     public Bittle findOneWithCache(Long id) {
         return entityManager.find(Bittle.class,id);
     }
+
+//    @Override
+//    @CachePut(value = "bittleCache",key = "'BittleId' +#bittle.id.toString()")
+//    public Bittle save(Bittle bittle) {
+//        return entityManager.merge(bittle);
+//    }
 }
