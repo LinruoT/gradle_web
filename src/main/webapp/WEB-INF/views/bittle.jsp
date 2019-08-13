@@ -18,6 +18,7 @@
             <div class="bittleMessage"><c:out value="${bittle.message}" /></div>
             <div>
                 <span class="bittleId"><c:out value="${bittle.id}" /></span>
+                <span class="bitterName"><c:out value="${bittle.bitter.firstName} ${bittle.bitter.lastName}" /></span>
                 <span class="bittleTime"><c:out value="${bittle.time}" /></span>
                 <span class="bittleLocation">(<c:out value="${bittle.latitude}" />, <c:out value="${bittle.longitude}" />)</span>
                 <span class="bittleDelete">
@@ -39,7 +40,7 @@
             <div>
                 <c:forEach var="comment" items="${bittle.comments}">
                     <div>
-                        <span>评论内容：${comment.content}</span>
+                        <span>${comment.bitter.firstName} ${comment.bitter.lastName}：${comment.content} </span>
                         <span>评论时间：${comment.time}</span>
                     </div>
                 </c:forEach>

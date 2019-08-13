@@ -17,7 +17,14 @@ public class BittleRepositoryImpl implements BittleRepositoryCustom{
     @Override
 //    @Cacheable(value = "recentBittles",key = "'oneMinuteBittles'") //List<E> 需要用GenericJackson2JsonRedisSerializer，spring data 1.6.0以上
     public List<Bittle> findBittles(Long max, int count) {
-        return (List<Bittle>) entityManager.createQuery("select s from Bittle s order by s.id desc")
+        return (List<Bittle>) entityManager
+                .createQuery("select s from Bittle s " +
+                        "left join fetch s.pictures as p " +
+                        "left join fetch s.comments as c " +
+                        "left join fetch p.bitter as pb " +
+                        "left join fetch c.bitter as cb " +
+
+                        "order by s.id desc")
                 .setMaxResults(count)
                 .getResultList();
     }

@@ -61,7 +61,7 @@
                         <a href="/bittles/forcedel/<c:out value="${bittle.id}" />">永久删除</a>
                     </span>
                     <span class="bittleComment">
-                            评论数量：${bittle.comments.size()}
+                            评论数量：${bittle.commentCount}
                     </span>
                 </div>
                 <div>

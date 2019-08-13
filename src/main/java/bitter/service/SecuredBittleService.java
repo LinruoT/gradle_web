@@ -16,9 +16,7 @@ import bitter.domain.Bittle;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Class description
@@ -57,7 +55,7 @@ public class SecuredBittleService implements BittleService {
     @Override
     public Bittle addBittle(Bittle bittle, MultipartFile[] files) {
         // 保存图片
-        List<Picture> pictures = new ArrayList<>();
+        Set<Picture> pictures = new HashSet<>();
         // 循环获取file数组中得文件
         for (MultipartFile file : files) {
             if (file.getOriginalFilename().contains(".")) {
@@ -110,7 +108,7 @@ public class SecuredBittleService implements BittleService {
     @Override
     @Secured({"ROLE_BITTER", "ROLE_ADMIN"})
     public boolean addComment(Bittle bittle, Comment comment) {
-        List<Comment> comments;
+        Set<Comment> comments;
         try {
             comment = commentRepository.save(comment);
             System.out.println("保存comment成功"+comment.getId());
@@ -119,6 +117,7 @@ public class SecuredBittleService implements BittleService {
             comments = bittle.getComments();
             comments.add(comment);
             bittle.setComments(comments);
+            bittle.setCommentCount(bittle.getCommentCount()+1);
             bittle=bittleRepository.save(bittle);
             System.out.println("addComment: 成功 bittleId="+bittle.getBitter()+" "+comment);
             return true;

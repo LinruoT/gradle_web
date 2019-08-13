@@ -9,6 +9,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 //推文类，包含消息内容、时间戳、经纬度
 @Entity
@@ -29,16 +30,29 @@ public class Bittle {
     private Double longitude;
 
     @ManyToMany() //默认懒加载会导致session过期
-    //@JoinTable(name = "T_Bittle_Picture")
+    @JoinTable(name = "Bittle_Picture",
+            joinColumns = { @JoinColumn(name = "Bittle_id",
+                    referencedColumnName = "id") },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "pictures_id", referencedColumnName = "id") })
     @OrderBy("id")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Picture> pictures; //这条推文的图片
+    //在dataConfig中设置允许在事务外lazy查询，但picture开启懒加载会卡住
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    private Set<Picture> pictures; //这条推文的图片
 
     @OneToMany() //默认懒加载会导致session过期
     @OrderBy("id")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Comment> comments; //这条推文的评论
+    @JoinTable(name = "Bittle_Comment",
+            joinColumns = { @JoinColumn(name = "Bittle_id",
+                    referencedColumnName = "id") },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "comments_id", referencedColumnName = "id") })
+    //在dataConfig中设置允许在事务外lazy查询
+    //@LazyCollection(LazyCollectionOption.FALSE)
+    private Set<Comment> comments; //这条推文的评论
 
+    @Column(name = "comment_count")
+    private int commentCount;
 
     public Bittle() {}
 
@@ -79,20 +93,28 @@ public class Bittle {
         return latitude;
     }
 
-    public List<Picture> getPictures() {
+    public Set<Picture> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<Picture> pictures) {
+    public void setPictures(Set<Picture> pictures) {
         this.pictures = pictures;
     }
 
-    public List<Comment> getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
     }
 
     //重新相等判定，使用了apache commons
