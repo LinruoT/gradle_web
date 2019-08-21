@@ -156,6 +156,7 @@ public class BitterController {
         model.addAttribute(bitter);
         return "changePwdForm";
     }
+
     @RequestMapping(value = "/{username}/changepwd",method = RequestMethod.POST)
     public String changePwd(@PathVariable String username, String pwd, Principal principal) {
         Bitter bitter = bitterRepository.findByUsername(username);
@@ -204,6 +205,14 @@ public class BitterController {
 //            model.addAttribute("imageList",rawImagesList);//保存在web服务器上的路径
         }
         return "profile";
+    }
+    @RequestMapping(value = "/mine" ,method = RequestMethod.GET)
+    public String showMyBitterProfile(Principal principal) {
+        if (principal==null) {
+            System.out.println("未登录");
+            return "redirect:/login";
+        }
+        else return "redirect:/bitter/"+principal.getName();
     }
 
     //保存用户图片到对象存储
