@@ -20,7 +20,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name="bitter")
-    @JsonIgnore
+    //@JsonIgnore
     private Bitter bitter; //作者
 
     @ManyToOne

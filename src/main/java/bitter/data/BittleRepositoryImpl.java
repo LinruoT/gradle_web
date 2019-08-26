@@ -32,7 +32,16 @@ public class BittleRepositoryImpl implements BittleRepositoryCustom{
     @Override
     @Cacheable(value = "bittleCache",key = "'BittleId' +#id.toString()")
     public Bittle findOneWithCache(Long id) {
-        return entityManager.find(Bittle.class,id);
+//        return entityManager.find(Bittle.class,id); 改成join主动获取pictures 和 comments参数
+        return (Bittle)entityManager.createQuery("select s from Bittle s " +
+                "left join fetch s.pictures as p " +
+                "left join fetch s.comments as c " +
+                "left join fetch p.bitter as pb " +
+                "left join fetch c.bitter as cb " +
+//                "left join fetch cb.firstName as cbf " +
+//                "left join fetch cb.lastName as cbl " +
+
+                "where s.id=:id").setParameter("id",id).getSingleResult();
     }
 
 //    @Override

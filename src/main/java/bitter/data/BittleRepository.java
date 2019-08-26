@@ -17,8 +17,8 @@ import java.util.List;
 //Spring data自动会生成实现类，复杂查询放在 BittleRepositoryCustom，实现放在 同名+Impl
 @Transactional
 public interface BittleRepository extends JpaRepository<Bittle,Long>,BittleRepositoryCustom{
-    @Query("select s from Bittle s order by s.id desc")
-    List<Bittle> findAllBittles(); //自定义查询
+//    @Query("select distinct b from Bittle b left join fetch b.pictures left join fetch b.comments order by s.id desc")
+//    List<Bittle> findAllWithEagerRelationships(); //自定义查询
 
     List<Bittle> readAllByIdNotNullOrderByIdDesc(); //遵循命名模式的查询，spring data自动实现
     

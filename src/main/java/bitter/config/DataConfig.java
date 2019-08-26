@@ -156,24 +156,24 @@ public class DataConfig implements TransactionManagementConfigurer{
         //不需要设置persistence.xml
         lcemfb.setJpaVendorAdapter(jpaVendorAdapter);
         lcemfb.setPackagesToScan("bitter.domain");
-        Properties jpaProperties = new Properties();
-        //查看原来jpaProperty
-        System.out.println("original JpaPropertyMap:");
-        for (Map.Entry<String, Object> entry : lcemfb.getJpaPropertyMap().entrySet()) {
-            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-        }
-        //为了解决 懒加载和session close的问题
-        //jpaProperties.put("open-in-view","true"); //方案一：https://blog.csdn.net/blueheart20/article/details/52912023
-        jpaProperties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
-        jpaProperties.put("hibernate.show_sql","true"); //
-        jpaProperties.put("hibernate.enable_lazy_load_no_trans","true"); //方案二：https://stackoverflow.com/questions/21574236/how-to-fix-org-hibernate-lazyinitializationexception-could-not-initialize-prox
-        lcemfb.setJpaProperties(jpaProperties);
-        //查看新的jpaProperty
-        System.out.println("new JpaPropertyMap:");
-        for (Map.Entry<String, Object> entry : lcemfb.getJpaPropertyMap().entrySet()) {
-            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-
-        }
+//        Properties jpaProperties = new Properties();
+//        //查看原来jpaProperty
+//        System.out.println("original JpaPropertyMap:");
+//        for (Map.Entry<String, Object> entry : lcemfb.getJpaPropertyMap().entrySet()) {
+//            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//        }
+//        //为了解决 懒加载和session close的问题
+//        //jpaProperties.put("open-in-view","true"); //方案一（貌似只能springboot才有用）：https://blog.csdn.net/blueheart20/article/details/52912023
+//        jpaProperties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
+//        jpaProperties.put("hibernate.show_sql","true"); //
+//        jpaProperties.put("hibernate.enable_lazy_load_no_trans","true"); //方案二：https://stackoverflow.com/questions/21574236/how-to-fix-org-hibernate-lazyinitializationexception-could-not-initialize-prox
+//        lcemfb.setJpaProperties(jpaProperties);
+//        //查看新的jpaProperty
+//        System.out.println("new JpaPropertyMap:");
+//        for (Map.Entry<String, Object> entry : lcemfb.getJpaPropertyMap().entrySet()) {
+//            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//
+//        }
         return lcemfb;
     }
     @Bean(name = "transactionManager")

@@ -131,6 +131,7 @@ public class BittleController {
         defaultValue = "20"
     ) int count) {
         List<Bittle> bittleList = bittleRepository.findBittles(max, count);    // custom方法，jpa
+//        List<Bittle> bittleList = bittleRepository.findAllWithEagerRelationships();    // custom方法，jpa
 
 //      List<Bittle> bittleList=bittleRepository.readAllByIdNotNullOrderByIdDesc(); //spring data
         for (Bittle oneBittle : bittleList) {
@@ -179,7 +180,7 @@ public class BittleController {
     )
     public String addComment(@PathVariable Long bittleId, Model model, Principal principal,
                              @RequestParam(value = "comment",defaultValue = "")String comment) {
-        Bittle bittle = bittleRepository.findOne(bittleId); //主帖
+        Bittle bittle = bittleRepository.findOneWithCache(bittleId); //主帖
 
         if ((bittle == null) || (principal == null || comment.equals(""))) {
             System.out.println("未登录 或 消息空 或 bittle不存在" + bittleId);
