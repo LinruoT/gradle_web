@@ -43,17 +43,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //开发环境手动关闭csrf
-//        http .csrf().disable();
         http
                 .formLogin()
                     .loginPage("/login") //需要登陆的时候会跳转到 /login
+                    .defaultSuccessUrl("/")
                 .and()
                 .logout()
                     .logoutSuccessUrl("/")
                 .and()
                 .rememberMe()
-                    .tokenRepository(new InMemoryTokenRepositoryImpl())
+                //     * Specifies the {@link PersistentTokenRepository} to use. The default is to
+                //     * use {@link TokenBasedRememberMeServices} instead.
+                    //.tokenRepository(new InMemoryTokenRepositoryImpl())
                     .tokenValiditySeconds(2419200)
                     .key("bitterKey")
                 .and()

@@ -25,17 +25,20 @@ public class HelloHandler {
     }
     public void handleHello(String message) {
         System.out.println(message);
+        //新建一条order，存入mongoDB
         Order order = new Order();
         order.setCustomer(message);
         order.setType("test: received from rabbitMQ");
         orderRepository.save(order);
 
         //发送简单邮件
-        SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setFrom("ted_163mail@163.com");
-        mail.setTo("814536088@qq.com");
-        mail.setText(message+" a new bittle received from rabbitMQ");
-        javaMailSender.send(mail);
-
+        if(message.contains("email")) {
+            SimpleMailMessage mail = new SimpleMailMessage();
+            mail.setFrom("ted_163mail@163.com");
+            mail.setTo("814536088@qq.com");
+            mail.setSubject("a new bittle contains 'email'");
+            mail.setText(message + " a new bittle received from rabbitMQ");
+            javaMailSender.send(mail);
+        }
     }
 }

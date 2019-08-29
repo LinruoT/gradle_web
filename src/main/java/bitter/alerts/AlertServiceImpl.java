@@ -54,4 +54,22 @@ public class AlertServiceImpl implements AlertService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void sendTestAlert(int count) {
+        for (int i = 0; i < count; i++) {
+            try {
+                System.out.println("send test alert "+i);
+                MessageProperties messageProperties = new MessageProperties();
+                messageProperties.setContentType(CONTENT_TYPE_TEXT_PLAIN);
+                rabbit.send("hello.exchange","hello.routing",
+                        new Message(("test: "+i).getBytes(),messageProperties));
+//            rabbit.convertAndSend(bitter);
+            } catch (Exception e) {
+                System.out.println("报错：rabbit.convertAndSend(bittle)");
+                e.printStackTrace();
+            }
+        }
+
+    }
 }

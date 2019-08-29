@@ -18,6 +18,10 @@
         <put-attribute name="body" value="/WEB-INF/views/registerForm.jsp" />
     </definition>
 
+    <definition name="addPictureForm" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/addPictureForm.jsp" />
+    </definition>
+
     <definition name="profile" extends="base">
         <put-attribute name="body" value="/WEB-INF/views/profile.jsp" />
     </definition>
@@ -51,6 +55,14 @@
 
     <definition name="homestomp" extends="base">
         <put-attribute name="body" value="/WEB-INF/views/homeStomp.jsp" />
+    </definition>
+
+    <definition name="result" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/result.jsp" />
+    </definition>
+
+    <definition name="changePwdForm" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/changePwdForm.jsp" />
     </definition>
 
 </tiles-definitions>

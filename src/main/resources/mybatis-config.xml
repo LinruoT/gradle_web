@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--    是否开启自动驼峰命名规则（camel case）映射，
+            即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射
+            如果不开启，可以用resultMap来自定义字段名不同时的映射
+    -->
+
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logImpl" value="LOG4J" />
+        <!--延迟加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!--        开启缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+    
+    <typeAliases>
+        <package name="bitter.mybatis.domain"/>
+    </typeAliases>
+    
+<!--    <typeHandlers>-->
+<!--        &lt;!&ndash;        自定义的类型处理器&ndash;&gt;-->
+<!--        <typeHandler handler="MyEnumEmpStatusTypeHandler" javaType="EmpStatus" />-->
+<!--    </typeHandlers>-->
+<!--    <plugins>-->
+<!--        <plugin interceptor="plugin.MyFirstPlugin">-->
+<!--            <property name="someProperty" value="gaoduanB"/>-->
+<!--        </plugin>-->
+<!--        <plugin interceptor="plugin.MySecondPlugin">-->
+<!--            <property name="someProperty" value="eruaaaaa!!!"/>-->
+<!--        </plugin>-->
+
+<!--        &lt;!&ndash;        分页插件 &ndash;&gt;-->
+<!--        <plugin interceptor="com.github.pagehelper.PageInterceptor">-->
+<!--            &lt;!&ndash; 使用下面的方式配置参数，后面会有所有的参数介绍 &ndash;&gt;-->
+<!--            <property name="helperDialect" value="mysql"/>-->
+<!--            <property name="param1" value="value1"/>-->
+<!--            <property name="param2" value="value2"/>-->
+<!--            <property name="param3" value="value3"/>-->
+<!--        </plugin>-->
+<!--    </plugins>-->
+
+    <mappers>
+        <mapper resource="emp-mapper.xml" />
+        <mapper resource="dept-mapper.xml" />
+        <mapper resource="EmpMapperDynamicSql.xml" />
+        <package name="mbg.dao"/>
+    </mappers>
+</configuration>

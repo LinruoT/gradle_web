@@ -7,16 +7,18 @@
     <link rel="stylesheet" 
           type="text/css" 
           href="<s:url value="/resources/style.css" />" >
+  <link href="https://fonts.googleapis.com/css?family=Long+Cang|Noto+Sans+SC&display=swap" rel="stylesheet">
+  <script src="<s:url value="/resources/main.js" />" async ></script>
   </head>
   <body>
-    <div id="header">
+    <header id="header">
       <t:insertAttribute name="header" />
-    </div>
-    <div id="content">
+    </header>
+    <main id="content">
       <t:insertAttribute name="body" />
-    </div>
-    <div id="footer">
+    </main>
+    <footer id="footer">
       <t:insertAttribute name="footer" />
-    </div>
+    </footer>
   </body>
 </html>

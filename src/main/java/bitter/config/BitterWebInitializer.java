@@ -43,6 +43,11 @@ public class BitterWebInitializer extends AbstractAnnotationConfigDispatcherServ
         //super.onStartup(context);
     }
 
+
+
+
+
+
     //配置servlet过滤器：把charset设置成utf-8，在security里面配置filter
 //    @Override
 //    protected Filter[] getServletFilters() {

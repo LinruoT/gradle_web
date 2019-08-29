@@ -1,14 +1,23 @@
 package bitter.config;
 
+import bitter.data.BitterRepository;
+import bitter.domain.Bitter;
 import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.hibernate.SessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jms.connection.JmsTransactionManager;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
@@ -28,10 +37,21 @@ import javax.jms.ConnectionFactory;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 @Configuration
 @EnableTransactionManagement
+
+
+
+//mybatis自动扫描mapper注册
+@MapperScan(value = "mbg.dao")
+
+
+
 @EnableJpaRepositories(basePackages="bitter.data")//spring data查找扩展自JpaRepository的接口，自动生成实现
 public class DataConfig implements TransactionManagementConfigurer{
     @Resource(name="transactionManager")
@@ -47,7 +67,7 @@ public class DataConfig implements TransactionManagementConfigurer{
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
         ds.setUrl("jdbc:mysql://billyvps.cf:3306/bitter" +
-                "?useUnicode=true&characterEncoding=UTF-8" +
+                "?useUnicode=true&autoReconnect=true" +
                 "&serverTimezone=Asia/Shanghai&useSSL=false");
         ds.setUsername("billyvps");
         ds.setPassword("billy11111111");
@@ -59,7 +79,7 @@ public class DataConfig implements TransactionManagementConfigurer{
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
         ds.setUrl("jdbc:mysql://billyvps.cf:3306/bitter" +
-                "?useUnicode=true&characterEncoding=UTF-8" +
+                "?useUnicode=true&autoReconnect=true" +
                 "&serverTimezone=Asia/Shanghai&useSSL=false");
         ds.setUsername("billyvps");
         ds.setPassword("billy11111111");
@@ -121,6 +141,12 @@ public class DataConfig implements TransactionManagementConfigurer{
         adapter.setShowSql(true);
         adapter.setGenerateDdl(false);
         adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
+
+        System.out.println("JpaPropertyMap:");
+        for (Map.Entry<String, Object> entry : adapter.getJpaPropertyMap().entrySet()) {
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+
+        }
         return adapter;
     }
     @Bean
@@ -130,6 +156,24 @@ public class DataConfig implements TransactionManagementConfigurer{
         //不需要设置persistence.xml
         lcemfb.setJpaVendorAdapter(jpaVendorAdapter);
         lcemfb.setPackagesToScan("bitter.domain");
+//        Properties jpaProperties = new Properties();
+//        //查看原来jpaProperty
+//        System.out.println("original JpaPropertyMap:");
+//        for (Map.Entry<String, Object> entry : lcemfb.getJpaPropertyMap().entrySet()) {
+//            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//        }
+//        //为了解决 懒加载和session close的问题
+//        //jpaProperties.put("open-in-view","true"); //方案一（貌似只能springboot才有用）：https://blog.csdn.net/blueheart20/article/details/52912023
+//        jpaProperties.put("hibernate.dialect","org.hibernate.dialect.MySQLDialect");
+//        jpaProperties.put("hibernate.show_sql","true"); //
+//        jpaProperties.put("hibernate.enable_lazy_load_no_trans","true"); //方案二：https://stackoverflow.com/questions/21574236/how-to-fix-org-hibernate-lazyinitializationexception-could-not-initialize-prox
+//        lcemfb.setJpaProperties(jpaProperties);
+//        //查看新的jpaProperty
+//        System.out.println("new JpaPropertyMap:");
+//        for (Map.Entry<String, Object> entry : lcemfb.getJpaPropertyMap().entrySet()) {
+//            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+//
+//        }
         return lcemfb;
     }
     @Bean(name = "transactionManager")
@@ -139,6 +183,27 @@ public class DataConfig implements TransactionManagementConfigurer{
         transactionManager.setEntityManagerFactory(emf);
         return transactionManager;
     }
+
+
+
+//learn-mybatis
+    @Bean
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+        factoryBean.setDataSource(dataSource);
+        factoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
+        return factoryBean.getObject();
+    }
+    @Bean
+    public BitterRepository bitterRepository(SqlSessionFactory sqlSessionFactory) {
+        SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
+        return sqlSessionTemplate.getMapper(BitterRepository.class);
+    }
+
+
+
+
+
     @Override
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return txManager2;

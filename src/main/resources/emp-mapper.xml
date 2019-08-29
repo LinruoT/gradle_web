@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--<mapper namespace="接口类全类名"> id=方法名-->
+<mapper namespace="bitter.mybatis.EmpMapper">
+<!--    开启二级缓存-->
+    <cache/>
+
+    <select id="selectEmp" resultType="Employee">
+        select * from employee where id = #{id}
+    </select>
+
+    <insert id="insertEmp" parameterType="Employee"
+            useGeneratedKeys="true" keyProperty="id"> <!--数据库添加成功后，获取主键-->
+        insert into employee(first_name, last_name, age, gender, email,emp_status)
+        values (#{firstName},#{lastName},#{age},#{gender},#{email},#{empStatus})
+    </insert>
+
+    <select id="selectEmpByFirstnameAndLastname" resultType="Employee">
+        select * from employee where first_name = #{firstName} and last_name = #{lastName}
+    </select>
+    
+    <!--  ${}是直接拼接SQL，#{}是preparedStatement  -->
+    <select id="selectEmpByName" resultType="Employee">
+        select * from employee where ${whichName}_name = #{name}
+    </select>
+
+
+    <!--    如何返回多个数据resultType是集合内元素类型 接口方法是List<Employee>   -->
+    <select id="selectEmpByAge" resultType="Employee">
+        select * from employee where age = #{age}
+    </select>
+
+    <!--    自定义结果  resultMap     -->
+    <resultMap id="MyEmp" type="Employee">
+        <id column="id" property="id" />
+        <result column="last_name" property="lastName" />
+        <result column="first_name" property="firstName" />
+        <!--    其他如果一致的就是默认映射   -->
+    </resultMap>
+    <select id="selectEmpToResultMap" resultMap="MyEmp">
+        select * from employee where id = #{id}
+    </select>
+
+<!--    方法一：联合查询，Employee getEmpAndDept(Long id);-->
+    <resultMap id="MyEmpAss" type="Employee" >
+        <id column="id" property="id" />
+        <result column="last_name" property="lastName" />
+        <result column="first_name" property="firstName" />
+        <result column="age" property="age" />
+        <result column="gender" property="gender" />
+        <result column="email" property="email" />
+        <!--    方法一：联合查询-->
+        <association property="dept" javaType="Department">
+            <id column="d_id" property="id" />
+            <result column="d_name" property="name" />
+        </association>
+    </resultMap>
+    <select id="getEmpAndDept" resultMap="MyEmpAss">
+        select e.id id,e.first_name first_name,e.last_name last_name,e.age age,e.gender gender,e.email email,e.d_id d_id,d.name d_name
+        from employee e,department d where e.d_id=d.id and e.id=#{id};
+    </select>
+
+<!--    方法二：分步查询，Employee getEmpAndDeptStep(Long id);-->
+    <resultMap id="MyEmpStep" type="Employee" >
+        <id column="id" property="id" />
+        <result column="last_name" property="lastName" />
+        <result column="first_name" property="firstName" />
+        <!--    其他如果一致的就是默认映射   -->
+        <!--    方法二：分步查询，使用select指定的方法，传入column参数，并封装给property-->
+        <association property="dept"
+                     select="DeptMapper.selectDeptById"
+                     column="d_id">
+        </association>
+    </resultMap>
+    <select id="getEmpAndDeptStep" resultMap="MyEmpStep" >
+        select * from employee where id = #{id}
+    </select>
+
+<!--    List<Employee> selectEmpByDept(long did);-->
+    <select id="selectEmpByDept" resultType="Employee">
+        select * from employee where d_id = #{did}
+    </select>
+</mapper>

@@ -1,6 +1,7 @@
 package bitter.data;
 
 import bitter.domain.Bittle;
+import org.springframework.cache.annotation.CachePut;
 
 import java.util.List;
 
@@ -9,4 +10,6 @@ public interface BittleRepositoryCustom {
     List<Bittle> findBittles(Long max, int count);//bittleID最大值，需要的bittle个数
 
     Bittle findOneWithCache(Long id);
+
+//    Bittle save(Bittle bittle);
 }

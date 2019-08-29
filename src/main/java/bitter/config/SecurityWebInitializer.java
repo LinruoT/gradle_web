@@ -7,6 +7,7 @@ import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 
 //用于启用spring security
+//把servlet的filter 委托给 spring上下文
 public class SecurityWebInitializer extends AbstractSecurityWebApplicationInitializer {
     /**
      * 配置编码
