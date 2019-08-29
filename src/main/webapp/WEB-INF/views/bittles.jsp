@@ -30,8 +30,8 @@
             </h3>
             <form method="POST" name="bittleForm" enctype="multipart/form-data" accept-charset="UTF-8">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                <input type="hidden" name="latitude">
-                <input type="hidden" name="longitude">
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
                 <textarea name="message" cols="40" rows="8"></textarea><br/>
                 <p>选择文件:<input type="file" name="files" multiple accept="image/jpeg,image/png,image/gif"></p>
 <%--                <p>选择文件:<input type="file" name="files" accept="image/jpeg,image/png,image/gif"></p>--%>
@@ -88,6 +88,14 @@
         </c:if>
     </div>
 </article>
-
+<script>
+    navigator.geolocation.getCurrentPosition(function(position) {
+        setLocation(position.coords.latitude, position.coords.longitude);
+    });
+    function setLocation(latitude,longitude) {
+        document.getElementById("latitude").value=latitude.toFixed(2);
+        document.getElementById("longitude").value=longitude.toFixed(2);
+    }
+</script>
 </body>
 </html>
