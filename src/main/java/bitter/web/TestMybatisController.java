@@ -30,20 +30,17 @@ import mbg.model.BittleExample;
  * @version        Enter version here..., 19/07/28
  * @author         Enter your name here...
  */
-@Controller                           // controller注解基于component注解
-@RequestMapping({"/test/mybatis"})    // request mapping拆分后，路径映射部分放到类级别上
+@Controller
+@RequestMapping({"/test/mybatis"})
 public class TestMybatisController {
-    private SqlSessionFactory sqlSessionFactory;
+    private final BitterMapper bitterMapper;
+    private final BittleMapper bittleMapper;
 
-    /**
-     * Constructs ...
-     *
-     *
-     * @param sqlSessionFactory 自动装配session
-     */
+    //因为有@MapperScan(value = "mbg.dao")
     @Autowired
-    public TestMybatisController(SqlSessionFactory sqlSessionFactory) {    // 构造器
-        this.sqlSessionFactory = sqlSessionFactory;
+    public TestMybatisController(BitterMapper bitterMapper,BittleMapper bittleMapper) {    // 构造器
+        this.bitterMapper = bitterMapper;
+        this.bittleMapper = bittleMapper;
     }
 
     /**
@@ -56,21 +53,17 @@ public class TestMybatisController {
      */
     @RequestMapping(method = RequestMethod.GET)    // request mapping拆分后，http方法映射部分仍然在方法级别
     public String testMybatis(Model model) {       // 视图名home解析为/WEB-INF/views/home.jsp
-        SqlSession session = sqlSessionFactory.openSession();
+
         BitterExample example = new BitterExample();
         BitterExample.Criteria criteria = example.createCriteria();
-
         criteria.andIdIsNotNull();
+        int bitterCount = bitterMapper.countByExample(example);
 
         BittleExample example2 = new BittleExample();
         BittleExample.Criteria criteria2 = example2.createCriteria();
-
         criteria2.andIdIsNotNull();
+        int bittleCount = bittleMapper.countByExample(example2);
 
-        int bitterCount = session.getMapper(BitterMapper.class).countByExample(example);
-        int bittleCount = session.getMapper(BittleMapper.class).countByExample(example2);
-
-        session.close();
         model.addAttribute("time", new Date());
         model.addAttribute("bitterCount", "测试mybatis" + bitterCount);
         model.addAttribute("bittleCount", "测试mybatis" + bittleCount);

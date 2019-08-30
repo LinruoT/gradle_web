@@ -194,11 +194,12 @@ public class DataConfig implements TransactionManagementConfigurer{
         factoryBean.setConfigLocation(new ClassPathResource("mybatis-config.xml"));
         return factoryBean.getObject();
     }
-    @Bean
-    public BitterRepository bitterRepository(SqlSessionFactory sqlSessionFactory) {
-        SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
-        return sqlSessionTemplate.getMapper(BitterRepository.class);
-    }
+//我傻逼了？BitterRepository是spring data jpa方案的，不是mapper的interface
+//    @Bean
+//    public BitterRepository bitterRepository(SqlSessionFactory sqlSessionFactory) {
+//        SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate(sqlSessionFactory);
+//        return sqlSessionTemplate.getMapper(BitterRepository.class);
+//    }
 
 
 
