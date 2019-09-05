@@ -32,8 +32,9 @@ public class AppWideExceptionHandler {
         return modelAndView;
     }
     @ExceptionHandler(Exception.class)
-    public ModelAndView OtherExceptionHandler() {
+    public ModelAndView OtherExceptionHandler(Exception e) {
         System.out.println("OtherException");
+        e.printStackTrace();
         ModelAndView modelAndView = new ModelAndView("error/duplicate");
         modelAndView.addObject("errorType","OtherException");
         return modelAndView;
