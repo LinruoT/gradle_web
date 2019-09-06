@@ -1,5 +1,7 @@
 package bitter.config;
 
+import bitter.security.jwt.JWTConfigurer;
+import bitter.security.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,6 +26,8 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
+    @Autowired
+    TokenProvider tokenProvider;
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -69,7 +73,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .anyRequest().permitAll()
                 .and()
                 .requiresChannel()
-                    .antMatchers("/").requiresInsecure();
+                    .antMatchers("/").requiresInsecure()
+                .and()
+                    .apply(jwtConfigurer());
     }
-
+    private JWTConfigurer jwtConfigurer() {
+        return new JWTConfigurer(tokenProvider);
+    }
 }
