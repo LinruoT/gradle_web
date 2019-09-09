@@ -1,4 +1,7 @@
 package bitter.service;
 
-public class SecuredBitterService {
+import org.springframework.stereotype.Service;
+
+@Service
+public class SecuredBitterService implements BitterService {
 }

@@ -17,12 +17,12 @@ import java.util.List;
 
 @RestController //@RestController是@ResponseBody和@Controller的组合注解。
 @RequestMapping("/bittles")
-public class BittleApiController {
+public class BittleResource {
     private BittleRepository bittleRepository;
     private BitterRepository bitterRepository;
     private BittleService bittleService;
     @Autowired//构造器
-    public BittleApiController(BittleRepository bittleRepository, BitterRepository bitterRepository, BittleService bittleService) {
+    public BittleResource(BittleRepository bittleRepository, BitterRepository bitterRepository, BittleService bittleService) {
         this.bittleRepository=bittleRepository;
         this.bitterRepository=bitterRepository;
         this.bittleService=bittleService;
@@ -62,7 +62,7 @@ public class BittleApiController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Error bttleNotFound(BittleNotFoundException e) {
 
-        return new Error("Bittle not found "+e.getMessage());
+        return new Error(4,"Bittle not found "+e.getMessage());
     }
 
 

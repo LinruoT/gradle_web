@@ -1,5 +1,7 @@
 package bitter.config;
 
+import bitter.security.jwt.JWTConfigurer;
+import bitter.security.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,6 +26,8 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     DataSource dataSource;
+    @Autowired
+    TokenProvider tokenProvider;
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -33,9 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected  void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("billy").password("mm321852").roles("BITTER").and()
-//                .withUser("admin").password("tedlrt321852mm321852").roles("BITTER","ADMIN");
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select username, password, true from Bitter where username=?")
                 .authoritiesByUsernameQuery("select username, 'ROLE_BITTER' from Bitter where username=?")
@@ -44,6 +45,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                //测试rest才用
+                .csrf()
+                .disable()
+
+
                 .formLogin()
                     .loginPage("/login") //需要登陆的时候会跳转到 /login
                     .defaultSuccessUrl("/")
@@ -63,11 +69,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/homestomp").hasRole("BITTER")
-//                    .antMatchers("/bittles").authenticated()
+                    .antMatchers("/bitter/**").authenticated()
+                    .antMatchers("/api/auth").permitAll()
+                    .antMatchers("/api/**").authenticated()
                     .anyRequest().permitAll()
                 .and()
                 .requiresChannel()
-                    .antMatchers("/").requiresInsecure();
+                    .antMatchers("/").requiresInsecure()
+                .and()
+                    .apply(jwtConfigurer());
     }
-
+    private JWTConfigurer jwtConfigurer() {
+        return new JWTConfigurer(tokenProvider);
+    }
 }
