@@ -115,6 +115,7 @@ public class SecuredBittleService implements BittleService {
             if(comment.getId()==null)
                 return false;
             comments = bittle.getComments();
+            if(comments==null) comments = new HashSet<>(); //如果原来没有评论
             comments.add(comment);
             bittle.setComments(comments);
             bittle.setCommentCount(bittle.getCommentCount()+1);
