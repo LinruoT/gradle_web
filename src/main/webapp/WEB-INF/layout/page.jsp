@@ -9,6 +9,16 @@
           href="<s:url value="/resources/style.css" />" >
   <link href="https://fonts.googleapis.com/css?family=Long+Cang|Noto+Sans+SC&display=swap" rel="stylesheet">
   <script src="<s:url value="/resources/main.js" />" async ></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147949008-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-147949008-1');
+    </script>
+
   </head>
   <body>
     <header id="header">
