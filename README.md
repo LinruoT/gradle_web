@@ -6,6 +6,7 @@
 ###Hibernate
 ###Spring Data JPA
 ###JWT
+####缺点：不能jwt的token不能主动禁用
 ####1. 创建jwt类
  * JWTConfigurer: 为了添加filter，它将被应用到security config中
  * JWTFilter: jwt转换为Authentication， 并且用SecurityContextHolder.getContext().setAuthentication
