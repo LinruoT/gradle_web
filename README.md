@@ -10,6 +10,7 @@
 ####1. 创建jwt类
  * JWTConfigurer: 为了添加filter，它将被应用到security config中
  * JWTFilter: jwt转换为Authentication， 并且用SecurityContextHolder.getContext().setAuthentication
+ * CORSFilter: 允许跨域，添加Access-Control系列HTTP头
  * TokenProvider: （是Component）提供token和authentication互相转换的方法，配置secret等参数
 
 ####2. 修改security config

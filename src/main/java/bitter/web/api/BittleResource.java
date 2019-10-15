@@ -16,7 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController //@RestController是@ResponseBody和@Controller的组合注解。
-@RequestMapping("/bittles")
+@RequestMapping("/api/bittles")
 public class BittleResource {
     private BittleRepository bittleRepository;
     private BitterRepository bitterRepository;

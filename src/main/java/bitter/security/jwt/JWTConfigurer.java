@@ -1,5 +1,6 @@
 package bitter.security.jwt;
 
+import bitter.security.CORSFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +19,8 @@ public class JWTConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilt
     @Override
     public void configure(HttpSecurity http) throws Exception {
         JWTFilter jwtFilter = new JWTFilter(tokenProvider);
+        CORSFilter corsFilter = new CORSFilter();
+        http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
