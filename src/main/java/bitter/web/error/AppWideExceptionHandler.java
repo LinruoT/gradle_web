@@ -33,10 +33,10 @@ public class AppWideExceptionHandler {
     }
     @ExceptionHandler(Exception.class)
     public ModelAndView OtherExceptionHandler(Exception e) {
-        System.out.println("OtherException");
+        System.out.println("OtherException: "+e.getClass().getName());
         e.printStackTrace();
         ModelAndView modelAndView = new ModelAndView("error/duplicate");
-        modelAndView.addObject("errorType","OtherException");
+        modelAndView.addObject("errorType","OtherException: "+e.getClass().getName());
         return modelAndView;
     }
 //    @ExceptionHandler(BittleNotFoundException.class)

@@ -62,7 +62,12 @@ public class TokenProvider implements InitializingBean {
                 .setExpiration(validity)
                 .compact();
     }
-
+//        格式
+//        {
+//            "sub": "admin",
+//            "auth": "ROLE_ADMIN,ROLE_USER",
+//            "exp": 1572415447
+//        }
 
     public Authentication getAuthentication(String token) {
         Claims claims =

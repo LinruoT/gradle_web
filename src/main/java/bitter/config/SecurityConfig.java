@@ -69,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                     .antMatchers("/homestomp").hasRole("BITTER")
+                    .antMatchers("/bitter/register").permitAll()
                     .antMatchers("/bitter/**").authenticated()
                     .antMatchers("/api/auth").permitAll()
                     .antMatchers("/api/bittles").permitAll()

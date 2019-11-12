@@ -45,14 +45,12 @@ import java.util.Set;
 @Configuration
 @EnableTransactionManagement
 
-
-
 //mybatis自动扫描mapper注册
 @MapperScan(value = "mbg.dao")
 
+//spring data查找扩展自JpaRepository的接口，自动生成实现
+@EnableJpaRepositories(basePackages="bitter.data")
 
-
-@EnableJpaRepositories(basePackages="bitter.data")//spring data查找扩展自JpaRepository的接口，自动生成实现
 public class DataConfig implements TransactionManagementConfigurer{
     @Resource(name="transactionManager")
     private PlatformTransactionManager txManager2;
@@ -176,6 +174,8 @@ public class DataConfig implements TransactionManagementConfigurer{
 //        }
         return lcemfb;
     }
+
+    //创建JpaTransactionManager
     @Bean(name = "transactionManager")
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         System.out.println("emf: "+emf);
@@ -204,7 +204,7 @@ public class DataConfig implements TransactionManagementConfigurer{
 
 
 
-
+    //注册JpaTransactionManager
     @Override
     public PlatformTransactionManager annotationDrivenTransactionManager() {
         return txManager2;

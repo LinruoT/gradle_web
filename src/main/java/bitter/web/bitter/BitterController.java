@@ -5,6 +5,7 @@ import bitter.data.PictureRepository;
 import bitter.domain.Bitter;
 import bitter.data.BitterRepository;
 import bitter.domain.Picture;
+import bitter.web.error.BitterNotFoundException;
 import bitter.web.error.BittleNotFoundException;
 import bitter.web.error.DuplicateBitterException;
 import bitter.web.error.ImageUploadException;
@@ -178,15 +179,19 @@ public class BitterController {
         if (!model.containsAttribute("bitter")) {
             System.out.println("没有传来bitter属性，从数据库中读取");
             Bitter bitter = bitterRepository.findByUsername(username);
-            model.addAttribute(bitter);
+            if(bitter == null) {
+                System.out.println("bitterNotFound Exception");
+                throw new BitterNotFoundException();
+            } else{
+                model.addAttribute(bitter);
+                List<Picture> pictures = pictureRepository.findByBitter(bitter);
+                System.out.println("pictures in oss: ");
+                for (Picture pic:pictures) {
+                    System.out.println(pic);
+                }
+                model.addAttribute("pictureList",pictures);//保存在对象存储的链接
 
-
-            List<Picture> pictures = pictureRepository.findByBitter(bitter);
-            System.out.println("pictures in oss: ");
-            for (Picture pic:pictures) {
-                System.out.println(pic);
             }
-            model.addAttribute("pictureList",pictures);//保存在对象存储的链接
 
 //            String imgPath = request.getServletContext().getRealPath("/");
 //            System.out.println("imgPath: "+imgPath); //保存在web服务器上的路径

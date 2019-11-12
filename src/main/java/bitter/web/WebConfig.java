@@ -1,5 +1,6 @@
 package bitter.web;
 
+import bitter.web.interceptor.BitterInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +20,7 @@ import java.io.IOException;
 @Configuration
 @EnableWebMvc
 @EnableScheduling
-@ComponentScan({"bitter.web", "bitter.web.api"})
+@ComponentScan({"bitter.web", "bitter.web.api", "bitter.web.interceptor"})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     //JSP视图解析器（解析逻辑视图名称）：InternalResourceViewResolver，现在改成用apache tiles
@@ -108,4 +109,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new BitterInterceptor()).addPathPatterns("/bitter/**");
+    }
 }
