@@ -1,0 +1,115 @@
+2019-10-29 00:50:40.624 DEBUG 24228 --- [ XNIO-1 task-16] c.linruot.blog.web.rest.ArticleResource  : REST request to get Article : 1
+Hibernate: 
+
+select article0_.id as id1_0_0_, tag2_.id as id1_8_1_, article0_.blog_id as blog_id5_0_0_, article0_.content as content2_0_0_, article0_.date as date3_0_0_, article0_.title as title4_0_0_, 
+tag2_.name as name2_8_1_, tags1_.article_id as article_1_1_0__, tags1_.tag_id as tag_id2_1_0__ 
+from article article0_ 
+left outer join article_tag tags1_ on article0_.id=tags1_.article_id 
+left outer join tag tag2_ on tags1_.tag_id=tag2_.id 
+where article0_.id=?
+
+
+Hibernate: 为什么会查询user？？？？？
+
+select blog0_.id as id1_2_0_, blog0_.handle as handle2_2_0_, blog0_.name as name3_2_0_, blog0_.user_id as user_id4_2_0_, 
+user1_.id as id1_6_1_, user1_.created_by as created_2_6_1_, user1_.created_date as created_3_6_1_, user1_.last_modified_by as last_mod4_6_1_, 
+user1_.last_modified_date as last_mod5_6_1_, user1_.activated as activate6_6_1_, user1_.activation_key as activati7_6_1_, user1_.email as email8_6_1_, 
+user1_.first_name as first_na9_6_1_, user1_.image_url as image_u10_6_1_, user1_.lang_key as lang_ke11_6_1_, user1_.last_name as last_na12_6_1_, user1_.login as login13_6_1_, user1_.password_hash as passwor14_6_1_, 
+user1_.reset_date as reset_d15_6_1_, user1_.reset_key as reset_k16_6_1_ 
+from blog blog0_ 
+left outer join jhi_user user1_ on blog0_.user_id=user1_.id 
+where blog0_.id=?
+
+
+2019-10-29 00:50:40.642 DEBUG 24228 --- [ XNIO-1 task-16] c.l.blog.aop.logging.LoggingAspect       : Exit: com.linruot.blog.web.rest.ArticleResource.getArticle() with result = <200 OK OK,Article{id=1, title='aaa', content='aaa', date='2019-10-04T03:11:00Z'},[]>
+
+
+================================================
+2019-10-29 00:52:47.871 DEBUG 31336 --- [ XNIO-1 task-16] c.linruot.blog.web.rest.ArticleResource  : REST request to get Article : 1
+测试entityGraph成功！
+Hibernate: select article0_.id as id1_0_0_, tag2_.id as id1_8_1_, article0_.blog_id as blog_id5_0_0_, article0_.content as content2_0_0_, article0_.date as date3_0_0_, article0_.title as title4_0_0_, tag2_.name as name2_8_1_, tags1_.article_id as article_1_1_0__, tags1_.tag_id as tag_id2_1_0__ from article article0_ left outer join article_tag tags1_ on article0_.id=tags1_.article_id left outer join tag tag2_ on tags1_.tag_id=tag2_.id where article0_.id=?
+
+
+Hibernate: select blog0_.id as id1_2_0_, blog0_.handle as handle2_2_0_, blog0_.name as name3_2_0_, blog0_.user_id as user_id4_2_0_, user1_.id as id1_6_1_, user1_.created_by as created_2_6_1_, user1_.created_date as created_3_6_1_, user1_.last_modified_by as last_mod4_6_1_, user1_.last_modified_date as last_mod5_6_1_, user1_.activated as activate6_6_1_, user1_.activation_key as activati7_6_1_, user1_.email as email8_6_1_, user1_.first_name as first_na9_6_1_, user1_.image_url as image_u10_6_1_, user1_.lang_key as lang_ke11_6_1_, user1_.last_name as last_na12_6_1_, user1_.login as login13_6_1_, user1_.password_hash as passwor14_6_1_, user1_.reset_date as reset_d15_6_1_, user1_.reset_key as reset_k16_6_1_ from blog blog0_ left outer join jhi_user user1_ on blog0_.user_id=user1_.id where blog0_.id=?
+2019-10-29 00:52:47.890 DEBUG 31336 --- [ XNIO-1 task-16] c.l.blog.aop.logging.LoggingAspect       : Exit: com.linruot.blog.web.rest.ArticleResource.getArticle() with result = <200 OK OK,Article{id=1, title='aaa', content='aaa', date='2019-10-04T03:11:00Z'},[]>
+
+==========================================================
+为什么第一次会多个查询？
+
+
+Hibernate: 111111111111111111111111111
+select article0_.id as id1_0_, article0_.blog_id as blog_id5_0_, article0_.content as content2_0_, article0_.date as date3_0_, article0_.title as title4_0_ 
+from article article0_ limit ?
+【Hibernate:【 查manyToOne】
+select blog0_.id as id1_2_0_, blog0_.handle as handle2_2_0_, blog0_.name as name3_2_0_, blog0_.user_id as user_id4_2_0_, 
+user1_.id as id1_6_1_, user1_.created_by as created_2_6_1_, user1_.created_date as created_3_6_1_, user1_.last_modified_by as last_mod4_6_1_, user1_.last_modified_date as last_mod5_6_1_, user1_.activated as activate6_6_1_, user1_.activation_key as activati7_6_1_, user1_.email as email8_6_1_, user1_.first_name as first_na9_6_1_, user1_.image_url as image_u10_6_1_, user1_.lang_key as lang_ke11_6_1_, user1_.last_name as last_na12_6_1_, user1_.login as login13_6_1_, user1_.password_hash as passwor14_6_1_, user1_.reset_date as reset_d15_6_1_, user1_.reset_key as reset_k16_6_1_ 
+from blog blog0_ left outer join jhi_user user1_ on blog0_.user_id=user1_.id where blog0_.id=?
+Hibernate: 
+select blog0_.id as id1_2_0_, blog0_.handle as handle2_2_0_, blog0_.name as name3_2_0_, blog0_.user_id as user_id4_2_0_, 
+user1_.id as id1_6_1_, user1_.created_by as created_2_6_1_, user1_.created_date as created_3_6_1_, user1_.last_modified_by as last_mod4_6_1_, user1_.last_modified_date as last_mod5_6_1_, user1_.activated as activate6_6_1_, user1_.activation_key as activati7_6_1_, user1_.email as email8_6_1_, user1_.first_name as first_na9_6_1_, user1_.image_url as image_u10_6_1_, user1_.lang_key as lang_ke11_6_1_, user1_.last_name as last_na12_6_1_, user1_.login as login13_6_1_, user1_.password_hash as passwor14_6_1_, user1_.reset_date as reset_d15_6_1_, user1_.reset_key as reset_k16_6_1_ 
+from blog blog0_ left outer join jhi_user user1_ on blog0_.user_id=user1_.id where blog0_.id=?
+Hibernate: 
+select blog0_.id as id1_2_0_, blog0_.handle as handle2_2_0_, blog0_.name as name3_2_0_, blog0_.user_id as user_id4_2_0_, 
+user1_.id as id1_6_1_, user1_.created_by as created_2_6_1_, user1_.created_date as created_3_6_1_, user1_.last_modified_by as last_mod4_6_1_, user1_.last_modified_date as last_mod5_6_1_, user1_.activated as activate6_6_1_, user1_.activation_key as activati7_6_1_, user1_.email as email8_6_1_, user1_.first_name as first_na9_6_1_, user1_.image_url as image_u10_6_1_, user1_.lang_key as lang_ke11_6_1_, user1_.last_name as last_na12_6_1_, user1_.login as login13_6_1_, user1_.password_hash as passwor14_6_1_, user1_.reset_date as reset_d15_6_1_, user1_.reset_key as reset_k16_6_1_ 
+from blog blog0_ left outer join jhi_user user1_ on blog0_.user_id=user1_.id where blog0_.id=?
+】
+not eager load
+
+
+
+2019-10-29 11:06:09.776  WARN 35124 --- [  XNIO-1 task-2] o.h.h.internal.ast.QueryTranslatorImpl   : HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!【假分页】一个a对应多个b，分页a 而不是分页每一条
+Hibernate: 222222222222222222
+select distinct article0_.id as id1_0_0_, tag2_.id as id1_8_1_, article0_.blog_id as blog_id5_0_0_, article0_.content as content2_0_0_, article0_.date as date3_0_0_, article0_.title as title4_0_0_, 
+tag2_.name as name2_8_1_, tags1_.article_id as article_1_1_0__, tags1_.tag_id as tag_id2_1_0__ 
+from article article0_ 
+left outer join article_tag tags1_ on article0_.id=tags1_.article_id 
+left outer join tag tag2_ on tags1_.tag_id=tag2_.id
+eager load
+
+
+Hibernate: 2222222222222222
+select article0_.id as id1_0_, article0_.blog_id as blog_id5_0_, article0_.content as content2_0_, article0_.date as date3_0_, article0_.title as title4_0_ 
+from article article0_ limit ?
+not eager load
+
+
+2019-10-29 11:07:40.119  WARN 35124 --- [  XNIO-1 task-4] o.h.h.internal.ast.QueryTranslatorImpl   : HHH000104: firstResult/maxResults specified with collection fetch; applying in memory!【假分页】一个a对应多个b，分页a 而不是分页每一条
+Hibernate: 222222222222222
+select distinct article0_.id as id1_0_0_, tag2_.id as id1_8_1_, article0_.blog_id as blog_id5_0_0_, article0_.content as content2_0_0_, article0_.date as date3_0_0_, article0_.title as title4_0_0_, 
+tag2_.name as name2_8_1_, tags1_.article_id as article_1_1_0__, tags1_.tag_id as tag_id2_1_0__ 
+from article article0_ 
+left outer join article_tag tags1_ on article0_.id=tags1_.article_id 
+left outer join tag tag2_ on tags1_.tag_id=tag2_.id
+eager load
+
+
+=======对比blog
+11111
+Hibernate: 
+select blog0_.id as id1_2_, blog0_.handle as handle2_2_, blog0_.name as name3_2_, blog0_.user_id as user_id4_2_ 
+from blog blog0_
+【Hibernate:【 查manyToOne】
+select user0_.id as id1_6_0_, user0_.created_by as created_2_6_0_, user0_.created_date as created_3_6_0_, user0_.last_modified_by as last_mod4_6_0_, user0_.last_modified_date as last_mod5_6_0_, user0_.activated as activate6_6_0_, user0_.activation_key as activati7_6_0_, user0_.email as email8_6_0_, user0_.first_name as first_na9_6_0_, user0_.image_url as image_u10_6_0_, user0_.lang_key as lang_ke11_6_0_, user0_.last_name as last_na12_6_0_, user0_.login as login13_6_0_, user0_.password_hash as passwor14_6_0_, user0_.reset_date as reset_d15_6_0_, user0_.reset_key as reset_k16_6_0_ 
+from jhi_user user0_ where user0_.id=?
+Hibernate: 
+select user0_.id as id1_6_0_, user0_.created_by as created_2_6_0_, user0_.created_date as created_3_6_0_, user0_.last_modified_by as last_mod4_6_0_, user0_.last_modified_date as last_mod5_6_0_, user0_.activated as activate6_6_0_, user0_.activation_key as activati7_6_0_, user0_.email as email8_6_0_, user0_.first_name as first_na9_6_0_, user0_.image_url as image_u10_6_0_, user0_.lang_key as lang_ke11_6_0_, user0_.last_name as last_na12_6_0_, user0_.login as login13_6_0_, user0_.password_hash as passwor14_6_0_, user0_.reset_date as reset_d15_6_0_, user0_.reset_key as reset_k16_6_0_ 
+from jhi_user user0_ where user0_.id=?
+】
+
+22222
+Hibernate: 
+select blog0_.id as id1_2_, blog0_.handle as handle2_2_, blog0_.name as name3_2_, blog0_.user_id as user_id4_2_ 
+from blog blog0_
+
+111111
+Hibernate: 
+select blog0_.id as id1_2_, blog0_.handle as handle2_2_, blog0_.name as name3_2_, blog0_.user_id as user_id4_2_ 
+from blog blog0_ cross join jhi_user user1_ where blog0_.user_id=user1_.id and user1_.login=?
+【Hibernate: 【 查manyToOne】f't'g
+select user0_.id as id1_6_0_, user0_.created_by as created_2_6_0_, user0_.created_date as created_3_6_0_, user0_.last_modified_by as last_mod4_6_0_, user0_.last_modified_date as last_mod5_6_0_, user0_.activated as activate6_6_0_, user0_.activation_key as activati7_6_0_, user0_.email as email8_6_0_, user0_.first_name as first_na9_6_0_, user0_.image_url as image_u10_6_0_, user0_.lang_key as lang_ke11_6_0_, user0_.last_name as last_na12_6_0_, user0_.login as login13_6_0_, user0_.password_hash as passwor14_6_0_, user0_.reset_date as reset_d15_6_0_, user0_.reset_key as reset_k16_6_0_ from jhi_user user0_ where user0_.id=?
+】
+222222
+Hibernate: 
+select blog0_.id as id1_2_, blog0_.handle as handle2_2_, blog0_.name as name3_2_, blog0_.user_id as user_id4_2_ 
+from blog blog0_ cross join jhi_user user1_ where blog0_.user_id=user1_.id and user1_.login=?
+

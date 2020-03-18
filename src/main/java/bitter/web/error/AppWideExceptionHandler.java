@@ -31,12 +31,29 @@ public class AppWideExceptionHandler {
         modelAndView.addObject("errorType","ImageUploadException");
         return modelAndView;
     }
+
+    @ExceptionHandler(BitterNotFoundException.class)
+    public ModelAndView BitterNotFoundHandler() {
+        System.out.println("BitterNotFoundException");
+        ModelAndView modelAndView = new ModelAndView("error/notFound");
+        modelAndView.addObject("errorType","BitterNotFoundException");
+        return modelAndView;
+    }
+
+    @ExceptionHandler(BittleNotFoundException.class)
+    public ModelAndView BittleNotFoundHandler() {
+        System.out.println("BittleNotFoundException");
+        ModelAndView modelAndView = new ModelAndView("error/notFound");
+        modelAndView.addObject("errorType","BittleNotFoundException");
+        return modelAndView;
+    }
+
     @ExceptionHandler(Exception.class)
     public ModelAndView OtherExceptionHandler(Exception e) {
         System.out.println("OtherException: "+e.getClass().getName());
         e.printStackTrace();
-        ModelAndView modelAndView = new ModelAndView("error/duplicate");
-        modelAndView.addObject("errorType","OtherException: "+e.getClass().getName());
+        ModelAndView modelAndView = new ModelAndView("error/other");
+        modelAndView.addObject("errorType",e.getClass().getName());
         return modelAndView;
     }
 //    @ExceptionHandler(BittleNotFoundException.class)

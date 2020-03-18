@@ -45,6 +45,15 @@
         <put-attribute name="body" value="/WEB-INF/views/error/duplicate.jsp" />
     </definition>
 
+    <definition name="error/other" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/error/other.jsp" />
+    </definition>
+
+    <definition name="error/notFound" extends="base">
+        <put-attribute name="body" value="/WEB-INF/views/error/notFound.jsp" />
+    </definition>
+
+
     <definition name="products" extends="base">
         <put-attribute name="body" value="/WEB-INF/views/products.jsp" />
     </definition>

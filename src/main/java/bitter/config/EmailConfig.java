@@ -1,5 +1,6 @@
 package bitter.config;
 
+import constant.ConfigConsts;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,10 +19,10 @@ public class EmailConfig {
     @Bean
     public JavaMailSender javaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.163.com");
+        mailSender.setHost(ConfigConsts.MAIL_HOST);
 //        mailSender.setPort(465);
-        mailSender.setUsername("ted_163mail@163.com");
-        mailSender.setPassword("Tedlrt321852!");
+        mailSender.setUsername(ConfigConsts.MAIL_USERNAME);
+        mailSender.setPassword(ConfigConsts.MAIL_PASSWORD);
 //        Properties properties = new Properties();
 //        properties.setProperty()
 //

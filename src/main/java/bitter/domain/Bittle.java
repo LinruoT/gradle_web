@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import java.util.Date;
 import java.util.List;
@@ -53,6 +54,9 @@ public class Bittle {
 
     @Column(name = "comment_count")
     private int commentCount;
+
+    @LastModifiedBy
+    private String lastModifiedBy;
 
     public Bittle() {}
 

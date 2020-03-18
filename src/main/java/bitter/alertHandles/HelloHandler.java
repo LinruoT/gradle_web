@@ -33,12 +33,18 @@ public class HelloHandler {
 
         //发送简单邮件
         if(message.contains("email")) {
-            SimpleMailMessage mail = new SimpleMailMessage();
-            mail.setFrom("ted_163mail@163.com");
-            mail.setTo("814536088@qq.com");
-            mail.setSubject("a new bittle contains 'email'");
-            mail.setText(message + " a new bittle received from rabbitMQ");
-            javaMailSender.send(mail);
+            System.out.println("message.contains 'email'，尝试发送邮件");
+            try{
+                SimpleMailMessage mail = new SimpleMailMessage();
+                mail.setFrom("ted_163mail@163.com");
+                mail.setTo("814536088@qq.com");
+                mail.setSubject("a new bittle contains 'email'");
+                mail.setText(message + " a new bittle received from rabbitMQ");
+                javaMailSender.send(mail);
+            } catch (Exception e){
+                System.out.println("发送邮件错误 "+e.getMessage());
+            }
+
         }
     }
 }

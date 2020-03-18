@@ -2,6 +2,7 @@ package bitter.config;
 
 import bitter.data.BitterRepository;
 import bitter.domain.Bitter;
+import constant.ConfigConsts;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.hibernate.SessionFactory;
@@ -63,24 +64,20 @@ public class DataConfig implements TransactionManagementConfigurer{
     @Bean //使用jdbc
     public DataSource dataSourceBillyvpsMysql() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://billyvps.cf:3306/bitter" +
-                "?useUnicode=true&autoReconnect=true" +
-                "&serverTimezone=Asia/Shanghai&useSSL=false");
-        ds.setUsername("billyvps");
-        ds.setPassword("billy11111111");
+        ds.setDriverClassName(ConfigConsts.DATASOURCE_DRIVER);
+        ds.setUrl(ConfigConsts.DATASOURCE_URL);
+        ds.setUsername(ConfigConsts.DATASOURCE_USERNAME);
+        ds.setPassword(ConfigConsts.DATASOURCE_PASSWORD);
         return ds;
     }
     @Profile("production")
     @Bean //使用连接池
     public BasicDataSource dataSourceDBCP() {
         BasicDataSource ds = new BasicDataSource();
-        ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://billyvps.cf:3306/bitter" +
-                "?useUnicode=true&autoReconnect=true" +
-                "&serverTimezone=Asia/Shanghai&useSSL=false");
-        ds.setUsername("billyvps");
-        ds.setPassword("billy11111111");
+        ds.setDriverClassName(ConfigConsts.DATASOURCE_DRIVER);
+        ds.setUrl(ConfigConsts.DATASOURCE_URL);
+        ds.setUsername(ConfigConsts.DATASOURCE_USERNAME);
+        ds.setPassword(ConfigConsts.DATASOURCE_PASSWORD);
         ds.setInitialSize(5);
         return ds;
     }
