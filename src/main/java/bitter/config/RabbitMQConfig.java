@@ -3,6 +3,7 @@ package bitter.config;
 import bitter.alertHandles.HelloHandler;
 import bitter.domain.Bittle;
 import com.rabbitmq.client.Channel;
+import constant.ConfigConsts;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -21,10 +22,10 @@ public class RabbitMQConfig {
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory factory = new CachingConnectionFactory();
-        factory.setHost("127.0.0.1");
-        factory.setPort(5672);
-        factory.setUsername("guest");
-        factory.setPassword("guest");
+        factory.setHost(ConfigConsts.RABBITMQ_HOST);
+        factory.setPort(ConfigConsts.RABBITMQ_PORT);
+        factory.setUsername(ConfigConsts.RABBITMQ_USERNAME);
+        factory.setPassword(ConfigConsts.RABBITMQ_PASSWORD);
         return factory;
     }
     @Bean

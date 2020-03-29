@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import sun.misc.BASE64Decoder;
+// import sun.misc.BASE64Decoder;
 
 import java.security.Key;
 import java.util.Arrays;

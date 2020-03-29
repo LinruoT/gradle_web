@@ -2,6 +2,7 @@ package bitter.domain;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.LazyCollection;
@@ -56,6 +57,8 @@ public class Bittle {
     private int commentCount;
 
     @LastModifiedBy
+    @Column(name = "last_modified_by", length = 50)
+    @JsonIgnore
     private String lastModifiedBy;
 
     public Bittle() {}

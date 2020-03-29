@@ -6,14 +6,12 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mariadb://billyvps.cf:3306/bitter?useUnicode=true&amp;autoReconnect=true&amp;serverTimezone=Asia/Shanghai&amp;useSSL=false</jdbc-url>
-      <driver-properties>
-        <property name="autoReconnect" value="true" />
-        <property name="zeroDateTimeBehavior" value="convertToNull" />
-        <property name="tinyInt1isBit" value="false" />
-        <property name="characterEncoding" value="utf8" />
-        <property name="characterSetResults" value="utf8" />
-        <property name="yearIsDateType" value="false" />
-      </driver-properties>
+    </data-source>
+    <data-source source="LOCAL" name="ali" uuid="4d52143c-9916-4e54-b15c-ab4d9207725c">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://b.linruotian.com:3306</jdbc-url>
     </data-source>
   </component>
 </project>
