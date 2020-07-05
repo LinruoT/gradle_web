@@ -12,7 +12,7 @@ import java.util.List;
 //}
 
 //Spring data自动会生成实现类
-public interface BitterRepository extends JpaRepository<Bitter,Long> {
+public interface BitterRepository extends JpaRepository<Bitter,Long>, BitterRepositoryCustom {
 
     Bitter findByUsername(String username);
     List<Bitter> findByUsernameOrFirstNameOrLastNameLike(String username, String firstName,String lastName);
