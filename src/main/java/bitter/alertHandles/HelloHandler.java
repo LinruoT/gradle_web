@@ -26,10 +26,15 @@ public class HelloHandler {
     public void handleHello(String message) {
         System.out.println(message);
         //新建一条order，存入mongoDB
-        Order order = new Order();
-        order.setCustomer(message);
-        order.setType("test: received from rabbitMQ");
-        orderRepository.save(order);
+        try {
+            Order order = new Order();
+            order.setCustomer(message);
+            order.setType("test: received from rabbitMQ");
+            orderRepository.save(order);
+        } catch (Exception e){
+            System.out.println("新建一条order，存入mongoDB,错误 "+e.getMessage());
+        }
+
 
         //发送简单邮件
         if(message.contains("email")) {

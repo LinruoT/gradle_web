@@ -3,6 +3,7 @@ package bitter.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 //用户类Bitter
 @Entity
@@ -40,7 +41,27 @@ public class Bitter {
     @JoinColumn(name = "icon")
     private Picture icon;
 
-
+//    // 关注的人
+//    @OneToMany
+//    @JoinTable(name = "Bitter_relation",
+//            joinColumns = { @JoinColumn(name = "Bitter_id", referencedColumnName = "id") },
+//            inverseJoinColumns = {
+//                    @JoinColumn(name = "Follow_id", referencedColumnName = "id") })
+//    private List<Bitter> follows;
+//
+//    // 粉丝
+//    @OneToMany
+//    @JoinTable(name = "Bitter_relation",
+//            joinColumns = { @JoinColumn(name = "Follow_id", referencedColumnName = "id") },
+//            inverseJoinColumns = {
+//                    @JoinColumn(name = "Bitter_id", referencedColumnName = "id") })
+//    private List<Bitter> fans;
+//
+//    @Column(name="follow_count")
+//    private int followCount;
+//
+//    @Column(name="fans_count")
+//    private int fansCount;
 
     public Bitter() {}
     public Bitter(Long id,String username,String password,String firstName,String lastName,String email) {
@@ -108,4 +129,19 @@ public class Bitter {
         return icon;
     }
 
+//    public List<Bitter> getFollows() {
+//        return follows;
+//    }
+//
+//    public void setFollows(List<Bitter> followBitters) {
+//        this.follows = followBitters;
+//    }
+//
+//    public List<Bitter> getFans() {
+//        return fans;
+//    }
+//
+//    public void setFans(List<Bitter> fans) {
+//        this.fans = fans;
+//    }
 }

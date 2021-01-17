@@ -7,11 +7,11 @@
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mariadb://billyvps.cf:3306/bitter?useUnicode=true&amp;autoReconnect=true&amp;serverTimezone=Asia/Shanghai&amp;useSSL=false</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="ali" uuid="4d52143c-9916-4e54-b15c-ab4d9207725c">
+    <data-source source="LOCAL" name="bitter - b.lrt" uuid="4d52143c-9916-4e54-b15c-ab4d9207725c">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mariadb://b.linruotian.com:3306</jdbc-url>
+      <jdbc-url>jdbc:mariadb://b.linruotian.com:3306/bitter</jdbc-url>
     </data-source>
   </component>
 </project>

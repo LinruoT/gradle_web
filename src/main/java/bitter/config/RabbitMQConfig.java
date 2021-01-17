@@ -13,16 +13,24 @@ import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 
 @Configuration
 public class RabbitMQConfig {
+    @Autowired
+    Environment env;
+
     @Bean
     public ConnectionFactory connectionFactory() {
         CachingConnectionFactory factory = new CachingConnectionFactory();
-        factory.setHost(ConfigConsts.RABBITMQ_HOST);
+//        factory.setHost(ConfigConsts.RABBITMQ_HOST);
+        factory.setHost(env.getProperty("RABBITMQ_HOST"));
+        System.out.println("RABBITMQ_HOST from env: "+env.getProperty("RABBITMQ_HOST"));
         factory.setPort(ConfigConsts.RABBITMQ_PORT);
         factory.setUsername(ConfigConsts.RABBITMQ_USERNAME);
         factory.setPassword(ConfigConsts.RABBITMQ_PASSWORD);
