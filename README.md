@@ -11,7 +11,7 @@
 ###Spring Data JPA
 ###JWT
 ####缺点：不能jwt的token不能主动禁用
-####1. 创建jwt类
+ ####1. 创建jwt类
  * JWTConfigurer: 为了添加filter，它将被应用到security config中
  * JWTFilter: jwt转换为Authentication， 并且用SecurityContextHolder.getContext().setAuthentication
  * CORSFilter: 允许跨域，添加Access-Control系列HTTP头
@@ -26,3 +26,9 @@
 ####3. 添加controller
  * JWTController(TokenProvider, AuthenticationManager在securityconfig配置passwordEncoder等): /api/auth POST，登录获取token
  * LoginVM: @RequestBody LoginVM 用户名、密码、记住我
+###external configuration 外部化配置
+配置保存在 /src/main/resources/billy.properties
+在component类中获取配置 BillyServiceImpl @Value
+在configuration类中获取配置 MongoConfig, RabbitMQConfig
+###spring AOP
+Encoreable 定义新功能接口， GdhAspect 定义切面
